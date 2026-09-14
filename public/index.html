@@ -26,55 +26,58 @@
   <style>
     body { font-family: 'Inter', sans-serif; }
     .company-font { font-family: 'Cinzel', serif; letter-spacing: 0.12em; }
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="bg-white text-neutral-900 min-h-screen flex flex-col antialiased selection:bg-black selection:text-white">
 
-  <!-- Top Ribbon / Flash Announcements (Module 6) -->
+  <!-- Top Ribbon Announcement -->
   <div class="bg-neutral-900 text-white text-[11px] font-medium py-2 px-4 flex justify-between items-center tracking-wider uppercase">
     <span class="mx-auto">Dream Store India • Official House of MREEDO Apparel • All India Delivery</span>
   </div>
 
-  <!-- Main Navigation Bar (Module 1, 2, 3) -->
+  <!-- Main Navigation Bar -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
     <div class="w-full max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
       
-      <!-- Company Brand -->
+      <!-- Company Identity -->
       <a href="/" class="flex flex-col flex-shrink-0">
         <span class="company-font text-xl sm:text-2xl font-bold tracking-widest text-black">DREAM STORE INDIA</span>
         <span class="text-[9px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">House of Brands • MREEDO</span>
       </a>
 
-      <!-- Multimodal Intelligent Search Bar (Module 2) -->
+      <!-- MODULE 2: Multimodal Intelligent Search Bar with Auto-Predictions Dropdown -->
       <div class="hidden md:flex items-center flex-1 max-w-md mx-6 relative">
         <input 
           type="text" 
           id="search-input" 
           oninput="handleSearch(this.value)" 
+          onfocus="showPredictions()"
           placeholder="Search MREEDO T-Shirts, Shirts, GSM (e.g. 260 GSM)..." 
           class="w-full bg-neutral-100 border border-neutral-200 px-4 py-2.5 text-xs rounded-full focus:outline-none focus:border-black transition"
         >
         <svg class="w-4 h-4 text-neutral-400 absolute right-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        
+        <!-- Live Prediction Box (Module 2) -->
+        <div id="search-predictions" class="hidden absolute top-full left-0 right-0 mt-2 bg-white border border-neutral-200 shadow-2xl rounded-xl p-3 z-50 text-xs">
+          <p class="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-2">Suggested Searches</p>
+          <div id="predictions-list" class="space-y-1.5">
+            <!-- Dynamic Prediction items -->
+          </div>
+        </div>
       </div>
 
-      <!-- Action Utilities (Auth, Wishlist, Bag) -->
+      <!-- Action Utilities -->
       <div class="flex items-center gap-4 sm:gap-6 flex-shrink-0">
-        
-        <!-- Wishlist Indicator (Module 3) -->
         <button onclick="toggleWishlistDrawer()" class="relative p-1 text-black hover:opacity-75 transition" title="Wishlist">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
           <span id="wishlist-badge" class="absolute -top-1 -right-1 bg-red-600 text-white text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center">0</span>
         </button>
 
-        <!-- Shopping Bag (Module 3) -->
         <button onclick="toggleCartDrawer()" class="flex items-center gap-1.5 text-black p-1">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
           <span id="cart-badge" class="bg-black text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">0</span>
         </button>
 
-        <!-- User Identity Menu (Module 1) -->
         <div id="guest-ui">
           <button onclick="openAuthModal(false)" class="text-xs uppercase tracking-widest font-semibold px-4 py-2 border border-black hover:bg-black hover:text-white transition">Sign In</button>
         </div>
@@ -84,23 +87,20 @@
             <span id="user-initial" class="h-6 w-6 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-bold">U</span>
           </button>
           
-          <!-- Profile Dropdown (Module 1) -->
           <div id="profile-dropdown" class="hidden absolute right-0 mt-3 w-64 bg-white border border-neutral-200 shadow-2xl py-3 z-50 rounded-xl">
             <div class="px-4 py-2 border-b border-neutral-100">
               <p id="user-display-name" class="text-xs font-bold text-black truncate">User</p>
               <p id="user-display-email" class="text-[11px] text-neutral-500 truncate">user@dreamstore.in</p>
             </div>
             <button onclick="openAddressModal()" class="w-full text-left px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100">Manage Addresses (Home/Office)</button>
-            <button onclick="openOrdersModal()" class="w-full text-left px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100">My Orders & Live Dispatch</button>
             <button onclick="deleteAccountPermanent()" class="w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50">Permanent Account Erasure</button>
             <button onclick="signOutUser()" class="w-full text-left px-4 py-2 text-xs text-neutral-500 hover:bg-neutral-100 border-t border-neutral-100 mt-1">Sign Out</button>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- Category Nav Bar (Module 2) -->
+    <!-- MODULE 2: Dynamic Category Landing Bar -->
     <div class="border-t border-neutral-200 bg-neutral-50 px-4 sm:px-8 py-2">
       <div class="w-full max-w-7xl mx-auto flex items-center justify-between text-xs font-semibold tracking-wider uppercase">
         <div class="flex items-center gap-6">
@@ -108,15 +108,7 @@
           <button onclick="setCategory('TSHIRT')" id="tab-tshirt" class="text-neutral-500 hover:text-black transition">MREEDO T-Shirts</button>
           <button onclick="setCategory('SHIRT')" id="tab-shirt" class="text-neutral-500 hover:text-black transition">MREEDO Shirts</button>
         </div>
-
-        <!-- Parametric Filters (Module 2) -->
-        <div class="hidden sm:flex items-center gap-3">
-          <select id="sort-select" onchange="handleSort(this.value)" class="bg-transparent border border-neutral-300 text-[11px] py-1 px-2 rounded focus:outline-none">
-            <option value="DEFAULT">Sort By: Featured</option>
-            <option value="LOW_HIGH">Price: Low to High</option>
-            <option value="HIGH_LOW">Price: High to Low</option>
-          </select>
-        </div>
+        <span class="text-[11px] text-neutral-400 font-normal hidden sm:inline">Official Brand Launchpad</span>
       </div>
     </div>
   </header>
@@ -131,35 +123,97 @@
     >
   </div>
 
-  <!-- Main Showcase Container -->
-  <main class="w-full max-w-7xl mx-auto px-4 sm:px-8 py-8 flex-1">
-    
-    <div class="border-b border-neutral-200 pb-4 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+  <!-- MODULE 2: MREEDO Official Brand Launchpad Hub Banner -->
+  <section class="w-full max-w-7xl mx-auto px-4 sm:px-8 pt-6">
+    <div class="bg-neutral-900 text-white rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
       <div>
-        <span class="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-bold">Dream Store India Official Flagship</span>
-        <h1 id="collection-heading" class="company-font text-2xl sm:text-3xl font-bold tracking-wider text-black mt-1">MREEDO COLLECTION</h1>
+        <span class="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-bold">Dream Store India Flagship</span>
+        <h2 class="company-font text-2xl sm:text-3xl font-bold tracking-wider mt-1 text-white">MREEDO ATELIER HUB</h2>
+        <p class="text-xs text-neutral-400 mt-1 max-w-xl">
+          Engineered for structural density. 240+ to 280+ GSM pure combed cotton French terry & Oxford structured shirts.
+        </p>
       </div>
-      <p class="text-xs text-neutral-500 max-w-sm">
-        Exclusive streetwear engineering. 240+ GSM dense cotton, drop shoulder cuts, and minimal structural finish.
-      </p>
+      <div class="flex items-center gap-3">
+        <span class="px-3 py-1.5 rounded-full text-[11px] bg-neutral-800 border border-neutral-700 text-neutral-300">
+          Heavyweight 240–280 GSM
+        </span>
+        <span class="px-3 py-1.5 rounded-full text-[11px] bg-neutral-800 border border-neutral-700 text-neutral-300">
+          Drop Shoulder Boxy Cuts
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 2: Comprehensive Multi-Parametric Filter & Sorting Matrix Bar -->
+  <section class="w-full max-w-7xl mx-auto px-4 sm:px-8 pt-8">
+    <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-4 flex flex-wrap items-center justify-between gap-4 text-xs">
+      
+      <!-- Filters Group -->
+      <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+        
+        <!-- GSM Parametric Filter -->
+        <div class="flex items-center gap-2">
+          <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Fabric GSM:</label>
+          <select id="gsm-filter" onchange="handleGsmFilter(this.value)" class="bg-white border border-neutral-300 rounded px-2.5 py-1 text-xs focus:outline-none focus:border-black">
+            <option value="ALL">All Weights</option>
+            <option value="240">240 GSM (Combed Cotton)</option>
+            <option value="250">250 GSM (Pure Interlock)</option>
+            <option value="260">260 GSM (French Terry)</option>
+            <option value="280">280 GSM (Heavy Jersey)</option>
+          </select>
+        </div>
+
+        <!-- Size Filter -->
+        <div class="flex items-center gap-2">
+          <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Fit Size:</label>
+          <div class="flex items-center gap-1">
+            ${['ALL', 'S', 'M', 'L', 'XL'].map(sz => `
+              <button onclick="handleSizeFilter('${sz}')" id="filter-size-${sz}" class="px-2 py-0.5 border ${sz === 'ALL' ? 'border-black bg-black text-white font-bold' : 'border-neutral-300 bg-white text-neutral-700'} rounded text-[10px] transition">
+                ${sz}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Clear Filter Reset -->
+        <button onclick="resetAllFilters()" class="text-[11px] text-red-600 hover:underline font-semibold">
+          Reset Filters
+        </button>
+      </div>
+
+      <!-- Sorting Matrix -->
+      <div class="flex items-center gap-2">
+        <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Sort Matrix:</label>
+        <select id="sort-select" onchange="handleSort(this.value)" class="bg-white border border-neutral-300 rounded px-2.5 py-1 text-xs focus:outline-none focus:border-black font-medium">
+          <option value="POPULARITY">Popularity & Rating</option>
+          <option value="NEWEST">Launch Timeline (Newest)</option>
+          <option value="LOW_HIGH">Price: Low to High</option>
+          <option value="HIGH_LOW">Price: High to Low</option>
+        </select>
+      </div>
+
     </div>
 
-    <!-- Product Grid -->
+    <!-- Active Filter Counter -->
+    <div class="flex justify-between items-center px-1 pt-3 text-[11px] text-neutral-500">
+      <span id="results-counter">Showing all MREEDO collection items</span>
+    </div>
+  </section>
+
+  <!-- Product Catalog Grid -->
+  <main class="w-full max-w-7xl mx-auto px-4 sm:px-8 py-6 flex-1">
     <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
       <!-- Injected via JavaScript -->
     </div>
-
   </main>
 
-  <!-- CART DRAWER (Module 3) -->
+  <!-- CART DRAWER -->
   <div id="cart-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col border-l border-neutral-200">
     <div class="p-4 border-b border-neutral-200 flex justify-between items-center">
       <h3 class="font-bold text-sm tracking-wider uppercase">Shopping Bag (<span id="cart-drawer-count">0</span>)</h3>
       <button onclick="toggleCartDrawer()" class="text-neutral-500 hover:text-black text-sm">✕ Close</button>
     </div>
-    <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-4">
-      <!-- Cart items loaded here -->
-    </div>
+    <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
     <div class="p-4 border-t border-neutral-200 bg-neutral-50 space-y-3">
       <div class="flex justify-between text-xs text-neutral-600 font-medium">
         <span>Delivery Charges:</span>
@@ -175,37 +229,27 @@
     </div>
   </div>
 
-  <!-- WISHLIST DRAWER (Module 3) -->
+  <!-- WISHLIST DRAWER -->
   <div id="wishlist-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col border-l border-neutral-200">
     <div class="p-4 border-b border-neutral-200 flex justify-between items-center">
       <h3 class="font-bold text-sm tracking-wider uppercase">Your Wishlist</h3>
       <button onclick="toggleWishlistDrawer()" class="text-neutral-500 hover:text-black text-sm">✕ Close</button>
     </div>
-    <div id="wishlist-items-container" class="flex-1 overflow-y-auto p-4 space-y-4">
-      <!-- Wishlist items loaded here -->
-    </div>
+    <div id="wishlist-items-container" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
   </div>
 
-  <!-- EXPRESS BUY NOW MODAL (Module 3: Instant Single-Item Checkout) -->
+  <!-- EXPRESS BUY NOW MODAL -->
   <div id="buy-now-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white border border-neutral-200 rounded-2xl max-w-md w-full p-6 relative">
       <button onclick="closeBuyNowModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
       <span class="text-[10px] uppercase tracking-widest font-bold text-amber-600">Express Purchase Pipeline</span>
       <h3 class="text-base font-bold text-black mt-1">Instant Checkout (Buy Now)</h3>
-      
-      <div id="buy-now-item-preview" class="my-4 p-3 bg-neutral-50 rounded-xl flex items-center gap-3 border border-neutral-200">
-        <!-- Preview filled by JS -->
-      </div>
-
-      <!-- Quick Delivery Address Selection (Module 1) -->
+      <div id="buy-now-item-preview" class="my-4 p-3 bg-neutral-50 rounded-xl flex items-center gap-3 border border-neutral-200"></div>
       <div class="space-y-3">
         <label class="block text-xs font-semibold uppercase tracking-wider text-neutral-700">Delivery Address</label>
-        <div id="buy-now-addresses" class="space-y-2 text-xs">
-          <!-- Populated from Address Book -->
-        </div>
+        <div id="buy-now-addresses" class="space-y-2 text-xs"></div>
         <button onclick="openAddressModal()" class="text-[11px] text-blue-600 hover:underline">+ Add New Delivery Location</button>
       </div>
-
       <div class="mt-6 pt-4 border-t border-neutral-200">
         <button onclick="executeInstantOrder()" class="w-full py-3 bg-black text-white text-xs uppercase tracking-widest font-bold hover:bg-neutral-800 transition">
           Confirm & Place Order (Pay on Delivery / UPI)
@@ -214,13 +258,12 @@
     </div>
   </div>
 
-  <!-- MULTI-ADDRESS BOOK MODAL (Module 1) -->
+  <!-- MULTI-ADDRESS BOOK MODAL -->
   <div id="address-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white border border-neutral-200 rounded-2xl max-w-lg w-full p-6 relative max-h-[90vh] flex flex-col">
       <button onclick="closeAddressModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
       <h3 class="text-base font-bold text-black mb-1">Addresses Book Management</h3>
       <p class="text-xs text-neutral-500 mb-4">Save multiple geolocations with descriptive tags (Home, Office, Other).</p>
-
       <form onsubmit="saveNewAddress(event)" class="space-y-3">
         <div class="grid grid-cols-2 gap-2">
           <input type="text" id="addr-name" required placeholder="Full Name" class="p-2 border border-neutral-300 rounded text-xs">
@@ -239,33 +282,26 @@
         </div>
         <button type="submit" class="w-full py-2 bg-neutral-900 text-white text-xs font-semibold rounded">Save Address</button>
       </form>
-
-      <div id="saved-addresses-list" class="mt-4 pt-4 border-t border-neutral-200 overflow-y-auto space-y-2">
-        <!-- Addresses Rendered Here -->
-      </div>
+      <div id="saved-addresses-list" class="mt-4 pt-4 border-t border-neutral-200 overflow-y-auto space-y-2"></div>
     </div>
   </div>
 
-  <!-- AUTHENTICATION MODAL (Module 1: Mobile OTP / Email Credentials) -->
+  <!-- AUTHENTICATION MODAL -->
   <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white border border-neutral-200 rounded-2xl max-w-sm w-full p-6 relative">
       <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
       <h3 id="auth-title" class="text-lg font-bold text-black mb-1">Sign In</h3>
       <p class="text-xs text-neutral-500 mb-4">Login to access your Saved Addresses, Wishlist, and Order Tracking.</p>
-
       <form onsubmit="handleAuthSubmit(event)" class="space-y-3">
         <input type="text" id="auth-name-field" placeholder="Your Name" class="hidden w-full p-2.5 border border-neutral-300 rounded-lg text-xs">
         <input type="text" id="auth-identifier" required placeholder="Mobile Number or Email" class="w-full p-2.5 border border-neutral-300 rounded-lg text-xs">
-        <input type="password" id="auth-password" required placeholder="Password / Security PIN" class="w-full p-2.5 border border-neutral-300 rounded-lg text-xs">
-        
+        <input type="password" id="auth-password" required placeholder="Password / PIN" class="w-full p-2.5 border border-neutral-300 rounded-lg text-xs">
         <div id="auth-terms" class="hidden items-center gap-2 pt-1">
           <input type="checkbox" id="auth-terms-box" class="rounded border-neutral-300">
-          <label for="auth-terms-box" class="text-[11px] text-neutral-600">I accept Dream Store India's Terms & Data Privacy.</label>
+          <label for="auth-terms-box" class="text-[11px] text-neutral-600">I accept Terms & Data Privacy.</label>
         </div>
-
         <button type="submit" id="auth-btn-text" class="w-full py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-lg transition">Sign In</button>
       </form>
-
       <div class="mt-4 text-center">
         <button onclick="toggleAuthType()" id="auth-toggle-btn" class="text-xs text-neutral-600 hover:text-black underline">Don't have an account? Sign Up</button>
       </div>
@@ -279,7 +315,7 @@
         <div>
           <span class="company-font text-lg font-bold tracking-widest text-black">DREAM STORE INDIA</span>
           <p class="text-neutral-500 mt-2 text-xs leading-relaxed max-w-xs">
-            Corporate parent entity owning and managing the <strong>MREEDO</strong> luxury apparel lineup. All products crafted with high-density cotton.
+            Corporate parent entity owning and managing the <strong>MREEDO</strong> luxury apparel lineup.
           </p>
         </div>
         <div class="space-y-2 uppercase tracking-widest text-[11px]">
@@ -301,23 +337,26 @@
     </div>
   </footer>
 
-  <!-- Application Engine: Modules 1, 2, 3 Implementation -->
+  <!-- Application Engine: Complete Module 2 Engine Included -->
   <script>
-    // Product Catalog: Strictly Brand MREEDO for T-Shirts & Shirts
+    // Product Catalog with Specs, Ratings & Timelines
     const products = [
-      { id: 1, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Noir Heavyweight Boxy Tee", gsm: "260 GSM French Terry", price: 2499, image: "/tee1.jpg", fit: "Boxy Cut" },
-      { id: 2, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Vintage Mineral Wash Tee", gsm: "240 GSM Combed Cotton", price: 2799, image: "/tee2.jpg", fit: "Drop Shoulder" },
-      { id: 3, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Signature Minimal Tee", gsm: "250 GSM Pure Interlock", price: 2299, image: "/tee3.jpg", fit: "Street Fit" },
-      { id: 4, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Monochrome Silhouette Tee", gsm: "280 GSM Heavy Jersey", price: 2999, image: "/tee4.jpg", fit: "Oversized" },
-      { id: 5, brand: "MREEDO", category: "SHIRT", name: "MREEDO Structural Oversized Shirt", gsm: "100% Oxford Weave", price: 3299, image: "/tee1.jpg", fit: "Camp Collar" },
-      { id: 6, brand: "MREEDO", category: "SHIRT", name: "MREEDO Minimalist Utility Shirt", gsm: "Matte Poplin Cotton", price: 3499, image: "/tee2.jpg", fit: "Boxy Tailored" }
+      { id: 1, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Noir Heavyweight Boxy Tee", gsm: "260 GSM", gsmNum: 260, price: 2499, rating: 4.9, launchDate: "2026-08-10", image: "/tee1.jpg", fit: "Boxy Cut", availableSizes: ['S', 'M', 'L', 'XL'] },
+      { id: 2, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Vintage Mineral Wash Tee", gsm: "240 GSM", gsmNum: 240, price: 2799, rating: 4.8, launchDate: "2026-09-01", image: "/tee2.jpg", fit: "Drop Shoulder", availableSizes: ['M', 'L', 'XL'] },
+      { id: 3, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Signature Minimal Tee", gsm: "250 GSM", gsmNum: 250, price: 2299, rating: 4.7, launchDate: "2026-07-15", image: "/tee3.jpg", fit: "Street Fit", availableSizes: ['S', 'M', 'L'] },
+      { id: 4, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Monochrome Silhouette Tee", gsm: "280 GSM", gsmNum: 280, price: 2999, rating: 5.0, launchDate: "2026-09-12", image: "/tee4.jpg", fit: "Oversized", availableSizes: ['S', 'L', 'XL'] },
+      { id: 5, brand: "MREEDO", category: "SHIRT", name: "MREEDO Structural Oversized Shirt", gsm: "240 GSM", gsmNum: 240, price: 3299, rating: 4.6, launchDate: "2026-08-20", image: "/tee1.jpg", fit: "Camp Collar", availableSizes: ['M', 'L', 'XL'] },
+      { id: 6, brand: "MREEDO", category: "SHIRT", name: "MREEDO Minimalist Utility Shirt", gsm: "260 GSM", gsmNum: 260, price: 3499, rating: 4.9, launchDate: "2026-09-05", image: "/tee2.jpg", fit: "Boxy Tailored", availableSizes: ['S', 'M', 'L', 'XL'] }
     ];
 
-    // State Management
+    // Module 2 Filter & Discovery State
     let currentCategory = 'ALL';
     let searchQuery = '';
-    let sortMethod = 'DEFAULT';
-    let selectedSizes = { 1: 'L', 2: 'M', 3: 'L', 4: 'XL', 5: 'L', 6: 'M' };
+    let selectedGsm = 'ALL';
+    let selectedSizeFilter = 'ALL';
+    let sortMethod = 'POPULARITY';
+
+    let selectedItemSizes = { 1: 'L', 2: 'M', 3: 'L', 4: 'XL', 5: 'L', 6: 'M' };
     let expressProduct = null;
 
     let cart = JSON.parse(localStorage.getItem('mreedo_cart') || '[]');
@@ -325,84 +364,104 @@
     let currentUser = JSON.parse(localStorage.getItem('mreedo_user') || 'null');
     let addresses = JSON.parse(localStorage.getItem('mreedo_addresses') || '[]');
 
-    // --- MODULE 2: DISCOVERY & CATALOG RENDERING ---
-    function renderCatalog() {
-      const grid = document.getElementById('product-grid');
-      if (!grid) return;
+    // --- MODULE 2: SEARCH ENGINE & PREDICTIONS ---
+    function handleSearch(val) {
+      searchQuery = val.toLowerCase().trim();
+      updateSearchPredictions(searchQuery);
+      renderCatalog();
+    }
 
-      let filtered = products.filter(p => {
-        const matchCat = currentCategory === 'ALL' || p.category === currentCategory;
-        const matchSearch = p.name.toLowerCase().includes(searchQuery) || 
-                            p.gsm.toLowerCase().includes(searchQuery) ||
-                            p.fit.toLowerCase().includes(searchQuery);
-        return matchCat && matchSearch;
-      });
+    function showPredictions() {
+      if (searchQuery.length > 0) {
+        document.getElementById('search-predictions').classList.remove('hidden');
+      }
+    }
 
-      if (sortMethod === 'LOW_HIGH') filtered.sort((a, b) => a.price - b.price);
-      if (sortMethod === 'HIGH_LOW') filtered.sort((a, b) => b.price - a.price);
+    function hidePredictions() {
+      setTimeout(() => {
+        document.getElementById('search-predictions').classList.add('hidden');
+      }, 200);
+    }
 
-      if (filtered.length === 0) {
-        grid.innerHTML = '<div class="col-span-full py-16 text-center text-neutral-400 text-xs uppercase tracking-widest">No products found matching your criteria.</div>';
+    function updateSearchPredictions(query) {
+      const predBox = document.getElementById('search-predictions');
+      const list = document.getElementById('predictions-list');
+      
+      if (!query) {
+        predBox.classList.add('hidden');
         return;
       }
 
-      grid.innerHTML = filtered.map(p => {
-        const inWishlist = wishlist.some(w => w.id === p.id);
-        return `
-          <div class="flex flex-col group relative">
-            <!-- Image & Wishlist Button -->
-            <div class="aspect-[3/4] bg-neutral-100 overflow-hidden relative border border-neutral-100">
-              <img src="${p.image}" alt="${p.name}" onerror="this.src='/logo.jpg'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              
-              <span class="absolute top-2.5 left-2.5 bg-black text-white text-[9px] uppercase tracking-widest font-bold px-2 py-0.5">
-                ${p.brand}
-              </span>
-              <span class="absolute top-2.5 right-11 bg-white/90 backdrop-blur text-[9px] uppercase tracking-wider font-semibold text-neutral-800 px-2 py-0.5">
-                ${p.gsm}
-              </span>
+      const matches = products.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        p.gsm.toLowerCase().includes(query) ||
+        p.fit.toLowerCase().includes(query)
+      ).slice(0, 4);
 
-              <!-- Wishlist Toggle (Module 3) -->
-              <button onclick="toggleWishlist(${p.id})" class="absolute top-2 right-2 h-7 w-7 rounded-full bg-white/90 flex items-center justify-center hover:bg-white transition" title="Save to Wishlist">
-                <svg class="w-4 h-4 ${inWishlist ? 'text-red-600 fill-red-600' : 'text-neutral-700'}" fill="${inWishlist ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-              </button>
-            </div>
-
-            <!-- Details -->
-            <div class="pt-4 flex flex-col flex-1 justify-between space-y-3">
-              <div>
-                <p class="text-[10px] uppercase tracking-wider text-neutral-400 font-medium">${p.fit}</p>
-                <h3 class="text-xs sm:text-sm font-semibold text-neutral-900 tracking-wide mt-0.5 truncate">${p.name}</h3>
-                <p class="text-sm font-bold text-black mt-1">₹${p.price.toLocaleString('en-IN')}</p>
-              </div>
-
-              <!-- Size Matrix -->
-              <div class="space-y-1">
-                <span class="text-[9px] uppercase tracking-widest text-neutral-400">Size:</span>
-                <div class="flex items-center gap-1">
-                  ${['S', 'M', 'L', 'XL'].map(sz => `
-                    <button 
-                      type="button" 
-                      onclick="selectSize(${p.id}, '${sz}')" 
-                      class="px-2 py-0.5 text-[11px] ${selectedSizes[p.id] === sz ? 'font-bold border border-black bg-black text-white' : 'font-medium border border-neutral-200 bg-white text-neutral-800 hover:border-black'}">
-                      ${sz}
-                    </button>
-                  `).join('')}
-                </div>
-              </div>
-
-              <!-- Dual Actions: Add to Bag & Express Buy Now (Module 3) -->
-              <div class="grid grid-cols-2 gap-2 pt-1">
-                <button onclick="addToCart(${p.id})" class="py-2.5 bg-neutral-100 hover:bg-neutral-200 text-black text-[10px] uppercase tracking-widest font-bold transition">
-                  Add to Bag
-                </button>
-                <button onclick="openBuyNow(${p.id})" class="py-2.5 bg-black hover:bg-neutral-800 text-white text-[10px] uppercase tracking-widest font-bold transition">
-                  Buy Now
-                </button>
-              </div>
-            </div>
+      if (matches.length === 0) {
+        list.innerHTML = `<p class="text-neutral-400 py-1">No instant matches for "${query}"</p>`;
+      } else {
+        list.innerHTML = matches.map(m => `
+          <div onclick="selectPrediction('${m.name}')" class="flex items-center justify-between p-1.5 hover:bg-neutral-100 rounded cursor-pointer transition">
+            <span class="font-medium text-neutral-800">${m.name}</span>
+            <span class="text-[10px] text-neutral-400">${m.gsm} • ₹${m.price}</span>
           </div>
-        `;
-      }).join('');
+        `).join('');
+      }
+      predBox.classList.remove('hidden');
+    }
+
+    function selectPrediction(name) {
+      document.getElementById('search-input').value = name;
+      searchQuery = name.toLowerCase();
+      hidePredictions();
+      renderCatalog();
+    }
+
+    document.addEventListener('click', (e) => {
+      const searchBox = document.getElementById('search-input');
+      const predBox = document.getElementById('search-predictions');
+      if (!searchBox.contains(e.target) && !predBox.contains(e.target)) {
+        predBox.classList.add('hidden');
+      }
+    });
+
+    // --- MODULE 2: PARAMETRIC FILTERING & SORTING ENGINE ---
+    function handleGsmFilter(val) {
+      selectedGsm = val;
+      renderCatalog();
+    }
+
+    function handleSizeFilter(sz) {
+      selectedSizeFilter = sz;
+      ['ALL', 'S', 'M', 'L', 'XL'].forEach(s => {
+        const btn = document.getElementById(`filter-size-${s}`);
+        if (s === sz) {
+          btn.className = "px-2 py-0.5 border border-black bg-black text-white font-bold rounded text-[10px] transition";
+        } else {
+          btn.className = "px-2 py-0.5 border border-neutral-300 bg-white text-neutral-700 rounded text-[10px] transition";
+        }
+      });
+      renderCatalog();
+    }
+
+    function handleSort(val) {
+      sortMethod = val;
+      renderCatalog();
+    }
+
+    function resetAllFilters() {
+      currentCategory = 'ALL';
+      searchQuery = '';
+      selectedGsm = 'ALL';
+      selectedSizeFilter = 'ALL';
+      sortMethod = 'POPULARITY';
+
+      document.getElementById('search-input').value = '';
+      document.getElementById('gsm-filter').value = 'ALL';
+      document.getElementById('sort-select').value = 'POPULARITY';
+      handleSizeFilter('ALL');
+      setCategory('ALL');
     }
 
     function setCategory(cat) {
@@ -418,25 +477,108 @@
       renderCatalog();
     }
 
-    function handleSearch(val) {
-      searchQuery = val.toLowerCase().trim();
+    // --- CORE CATALOG RENDER WITH FULL FILTERS ---
+    function renderCatalog() {
+      const grid = document.getElementById('product-grid');
+      const counterEl = document.getElementById('results-counter');
+      if (!grid) return;
+
+      let filtered = products.filter(p => {
+        const matchCategory = currentCategory === 'ALL' || p.category === currentCategory;
+        const matchGsm = selectedGsm === 'ALL' || p.gsmNum === parseInt(selectedGsm);
+        const matchSize = selectedSizeFilter === 'ALL' || p.availableSizes.includes(selectedSizeFilter);
+        const matchSearch = p.name.toLowerCase().includes(searchQuery) || 
+                            p.gsm.toLowerCase().includes(searchQuery) || 
+                            p.fit.toLowerCase().includes(searchQuery);
+        return matchCategory && matchGsm && matchSize && matchSearch;
+      });
+
+      // Sorting Matrix Logic
+      if (sortMethod === 'LOW_HIGH') filtered.sort((a, b) => a.price - b.price);
+      if (sortMethod === 'HIGH_LOW') filtered.sort((a, b) => b.price - a.price);
+      if (sortMethod === 'POPULARITY') filtered.sort((a, b) => b.rating - a.rating);
+      if (sortMethod === 'NEWEST') filtered.sort((a, b) => new Date(b.launchDate) - new Date(a.launchDate));
+
+      // Update Results Status
+      counterEl.innerText = `Showing ${filtered.length} items (Category: ${currentCategory} • GSM: ${selectedGsm} • Size: ${selectedSizeFilter})`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-16 text-center text-neutral-400 text-xs uppercase tracking-widest">
+            <p>No products match your specific filter criteria.</p>
+            <button onclick="resetAllFilters()" class="mt-3 text-black font-bold underline">Reset All Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(p => {
+        const inWishlist = wishlist.some(w => w.id === p.id);
+        return `
+          <div class="flex flex-col group relative">
+            <div class="aspect-[3/4] bg-neutral-100 overflow-hidden relative border border-neutral-100">
+              <img src="${p.image}" alt="${p.name}" onerror="this.src='/logo.jpg'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              
+              <span class="absolute top-2.5 left-2.5 bg-black text-white text-[9px] uppercase tracking-widest font-bold px-2 py-0.5">
+                ${p.brand}
+              </span>
+              <span class="absolute top-2.5 right-11 bg-white/90 backdrop-blur text-[9px] uppercase tracking-wider font-semibold text-neutral-800 px-2 py-0.5">
+                ${p.gsm}
+              </span>
+
+              <button onclick="toggleWishlist(${p.id})" class="absolute top-2 right-2 h-7 w-7 rounded-full bg-white/90 flex items-center justify-center hover:bg-white transition" title="Save to Wishlist">
+                <svg class="w-4 h-4 ${inWishlist ? 'text-red-600 fill-red-600' : 'text-neutral-700'}" fill="${inWishlist ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+              </button>
+            </div>
+
+            <div class="pt-4 flex flex-col flex-1 justify-between space-y-3">
+              <div>
+                <div class="flex justify-between items-center text-[10px] text-neutral-400">
+                  <span class="uppercase tracking-wider font-medium">${p.fit}</span>
+                  <span class="font-bold text-amber-600">★ ${p.rating}</span>
+                </div>
+                <h3 class="text-xs sm:text-sm font-semibold text-neutral-900 tracking-wide mt-0.5 truncate">${p.name}</h3>
+                <p class="text-sm font-bold text-black mt-1">₹${p.price.toLocaleString('en-IN')}</p>
+              </div>
+
+              <!-- Available Sizes -->
+              <div class="space-y-1">
+                <span class="text-[9px] uppercase tracking-widest text-neutral-400">Select Size:</span>
+                <div class="flex items-center gap-1">
+                  ${p.availableSizes.map(sz => `
+                    <button 
+                      type="button" 
+                      onclick="selectItemSize(${p.id}, '${sz}')" 
+                      class="px-2 py-0.5 text-[11px] ${selectedItemSizes[p.id] === sz ? 'font-bold border border-black bg-black text-white' : 'font-medium border border-neutral-200 bg-white text-neutral-800 hover:border-black'}">
+                      ${sz}
+                    </button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 pt-1">
+                <button onclick="addToCart(${p.id})" class="py-2.5 bg-neutral-100 hover:bg-neutral-200 text-black text-[10px] uppercase tracking-widest font-bold transition">
+                  Add to Bag
+                </button>
+                <button onclick="openBuyNow(${p.id})" class="py-2.5 bg-black hover:bg-neutral-800 text-white text-[10px] uppercase tracking-widest font-bold transition">
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectItemSize(prodId, sz) {
+      selectedItemSizes[prodId] = sz;
       renderCatalog();
     }
 
-    function handleSort(val) {
-      sortMethod = val;
-      renderCatalog();
-    }
-
-    function selectSize(prodId, sz) {
-      selectedSizes[prodId] = sz;
-      renderCatalog();
-    }
-
-    // --- MODULE 3: CART & WISHLIST PIPELINE ---
+    // --- CART & WISHLIST ENGINE ---
     function addToCart(prodId) {
       const item = products.find(p => p.id === prodId);
-      const size = selectedSizes[prodId] || 'L';
+      const size = selectedItemSizes[prodId] || 'L';
       if (item) {
         cart.push({ ...item, size });
         localStorage.setItem('mreedo_cart', JSON.stringify(cart));
@@ -531,10 +673,10 @@
       `).join('');
     }
 
-    // --- MODULE 3: EXPRESS BUY NOW PIPELINE ---
+    // --- EXPRESS BUY NOW ENGINE ---
     function openBuyNow(prodId) {
       const item = products.find(p => p.id === prodId);
-      const size = selectedSizes[prodId] || 'L';
+      const size = selectedItemSizes[prodId] || 'L';
       expressProduct = { ...item, size };
 
       document.getElementById('buy-now-item-preview').innerHTML = `
@@ -576,11 +718,11 @@
         openAddressModal();
         return;
       }
-      alert(`Instant Order Placed for ${expressProduct.name} (Size: ${expressProduct.size})! Dispatch confirmation sent.`);
+      alert(`Instant Order Placed for ${expressProduct.name} (Size: ${expressProduct.size})!`);
       closeBuyNowModal();
     }
 
-    // --- MODULE 1: MULTI-ADDRESS BOOK & PROFILE ---
+    // --- ADDRESS BOOK ENGINE ---
     function openAddressModal() {
       renderAddressesList();
       document.getElementById('address-modal').classList.remove('hidden');
@@ -631,7 +773,7 @@
       renderBuyNowAddresses();
     }
 
-    // --- MODULE 1: IDENTITY, AUTH & PERMANENT ERASURE ---
+    // --- AUTHENTICATION & PROFILE ENGINE ---
     let isSignUpMode = false;
     function openAuthModal(signup) {
       isSignUpMode = signup;
@@ -694,9 +836,9 @@
     }
 
     function deleteAccountPermanent() {
-      if (confirm('CRITICAL ACTION (Module 1): Are you sure you want to permanently delete your account, saved addresses, orders, and data tokens? This cannot be undone.')) {
+      if (confirm('Are you sure you want to permanently erase your profile and records?')) {
         localStorage.clear();
-        alert('All user profile records, addresses, and carts permanently purged.');
+        alert('All user profile records permanently purged.');
         window.location.reload();
       }
     }
