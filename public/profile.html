@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | Mreedo Atelier</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen p-4 sm:p-8">
+  <div class="max-w-xl mx-auto space-y-6">
+    <a href="/" class="text-xs text-amber-400 hover:underline">← Back to Store</a>
+    
+    <div class="p-6 bg-zinc-900 border border-zinc-800 rounded-2xl space-y-6">
+      <div class="flex items-center gap-4 border-b border-zinc-800 pb-6">
+        <div id="profile-avatar" class="h-16 w-16 bg-amber-500 text-black font-bold text-2xl rounded-full flex items-center justify-center">U</div>
+        <div>
+          <h1 id="profile-name" class="text-xl font-bold text-white">Member Name</h1>
+          <p id="profile-email" class="text-xs text-zinc-400">email@example.com</p>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <button onclick="logout()" class="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-semibold rounded-xl transition">
+          Sign Out
+        </button>
+
+        <button onclick="deleteAccount()" class="w-full py-2.5 bg-red-950/40 border border-red-800/60 hover:bg-red-900/60 text-red-300 text-xs font-semibold rounded-xl transition">
+          Delete Account Permanently
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('mreedo_user') || 'null');
+    if (!user) {
+      window.location.href = '/auth.html';
+    } else {
+      document.getElementById('profile-name').innerText = user.name || 'Member';
+      document.getElementById('profile-email').innerText = user.email || '';
+      document.getElementById('profile-avatar').innerText = (user.name || user.email || 'U')[0].toUpperCase();
+    }
+
+    function logout() {
+      localStorage.removeItem('mreedo_user');
+      window.location.href = '/';
+    }
+
+    function deleteAccount() {
+      if (confirm('CRITICAL ACTION: Are you sure you want to permanently delete your account and all data? This cannot be undone.')) {
+        localStorage.removeItem('mreedo_user');
+        localStorage.removeItem('mreedo_cart');
+        alert('Your account has been deleted permanently.');
+        window.location.href = '/';
+      }
+    }
+  </script>
+</body>
+</html>
