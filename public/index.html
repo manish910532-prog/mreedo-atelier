@@ -78,13 +78,19 @@
       <!-- Action Utilities -->
       <div class="flex items-center gap-4 sm:gap-6 flex-shrink-0">
         
-        <!-- MODULE 6: Gift Card Wallet Direct Link -->
+        <!-- MODULE 7: 24/7 Support Launcher Header Link -->
+        <button onclick="openHelpCenterModal()" class="relative p-1 text-black hover:opacity-75 transition hidden lg:flex items-center gap-1.5" title="Customer Care & Support">
+          <svg class="w-5 h-5 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <span class="text-xs uppercase font-semibold">Support</span>
+        </button>
+
+        <!-- Gift Card Wallet -->
         <button onclick="openGiftCardModal()" class="relative p-1 text-black hover:opacity-75 transition hidden lg:flex items-center gap-1.5" title="Gift Cards & Credits">
           <svg class="w-5 h-5 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
           <span class="text-xs uppercase font-semibold">Gift Cards</span>
         </button>
 
-        <!-- Dream Coins Loyalty Balance -->
+        <!-- Loyalty Balance -->
         <div class="hidden lg:flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200 rounded-full text-xs font-semibold text-amber-900" title="Dream Coins Loyalty Balance">
           <span class="h-4 w-4 rounded-full bg-amber-400 text-black flex items-center justify-center font-bold text-[10px]">🪙</span>
           <span id="nav-coins-balance">50 Coins</span>
@@ -139,6 +145,7 @@
                 <span class="font-bold text-emerald-700">₹<span id="dropdown-wallet">0</span></span>
               </div>
             </div>
+            <button onclick="openHelpCenterModal()" class="w-full text-left px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100">Help Directory & Callback</button>
             <button onclick="openGiftCardModal()" class="w-full text-left px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100">Gift Card Claim & Wallet</button>
             <button onclick="openOrdersModal()" class="w-full text-left px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100">My Orders & Live Dispatch</button>
             <button onclick="openAddressModal()" class="w-full text-left px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100">Manage Addresses (Home/Office)</button>
@@ -223,13 +230,87 @@
     <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12"></div>
   </main>
 
-  <!-- MODULE 6: GIFT CARD ISSUANCE & CLAIM TERMINAL MODAL -->
+  <!-- MODULE 7: 24/7 INTERACTIVE AI CONCIERGE FLOATING BUTTON & DRAWER -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <button onclick="toggleAiAssistant()" class="flex items-center gap-2 bg-black text-white px-4 py-3 rounded-full shadow-2xl hover:bg-neutral-800 transition transform hover:scale-105 border border-neutral-700">
+      <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="text-xs font-bold uppercase tracking-wider">24/7 AI Concierge</span>
+    </button>
+  </div>
+
+  <div id="ai-chat-drawer" class="hidden fixed bottom-20 right-6 w-80 sm:w-96 bg-white border border-neutral-200 shadow-2xl rounded-2xl z-50 flex flex-col overflow-hidden">
+    <div class="bg-neutral-900 text-white p-3.5 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+        <span class="font-bold text-xs uppercase tracking-wider">MREEDO AI Support</span>
+      </div>
+      <button onclick="toggleAiAssistant()" class="text-neutral-400 hover:text-white text-xs">✕</button>
+    </div>
+    <div id="ai-chat-messages" class="h-64 overflow-y-auto p-3 space-y-2 text-xs bg-neutral-50">
+      <div class="bg-white p-2.5 rounded-xl border border-neutral-200 text-neutral-700">
+        👋 Welcome to Dream Store India support. How can I assist you with your MREEDO apparel today?
+      </div>
+    </div>
+    <div class="p-2 border-t border-neutral-200 bg-white flex gap-1">
+      <input type="text" id="ai-user-query" placeholder="Ask about tracking, GSM, exchange..." onkeydown="if(event.key==='Enter') sendAiMessage()" class="flex-1 p-2 border border-neutral-300 rounded-lg text-xs focus:outline-none focus:border-black">
+      <button onclick="sendAiMessage()" class="px-3 py-2 bg-black text-white rounded-lg text-xs font-bold">Send</button>
+    </div>
+  </div>
+
+  <!-- MODULE 7: AUTOMATED HELP DIRECTORY & CALLBACK SCHEDULER MODAL -->
+  <div id="help-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white border border-neutral-200 rounded-2xl max-w-lg w-full p-6 relative max-h-[90vh] flex flex-col">
+      <button onclick="closeHelpCenterModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
+      <span class="text-[10px] uppercase tracking-widest font-bold text-neutral-400">Customer Support Infrastructure</span>
+      <h3 class="text-base font-bold text-black mb-1">Self-Service Help & Callback Portal</h3>
+      <p class="text-xs text-neutral-500 mb-4">Instantly resolve delivery bottlenecks or request an executive callback.</p>
+
+      <div class="overflow-y-auto space-y-4 flex-1 pr-1 text-xs">
+        
+        <!-- Automated Self-Service Matrices -->
+        <div class="space-y-2">
+          <p class="font-bold text-neutral-800 text-[11px] uppercase tracking-wider">Quick Resolution Directory</p>
+          <div class="space-y-1.5">
+            <button onclick="resolveHelpIssue('DELAY')" class="w-full text-left p-2.5 border border-neutral-200 rounded-lg hover:border-black flex justify-between items-center transition">
+              <span>Where is my shipment currently located?</span>
+              <span class="text-neutral-400">→</span>
+            </button>
+            <button onclick="resolveHelpIssue('REFUND')" class="w-full text-left p-2.5 border border-neutral-200 rounded-lg hover:border-black flex justify-between items-center transition">
+              <span>When will my electronic refund be credited?</span>
+              <span class="text-neutral-400">→</span>
+            </button>
+            <button onclick="resolveHelpIssue('EXCHANGE')" class="w-full text-left p-2.5 border border-neutral-200 rounded-lg hover:border-black flex justify-between items-center transition">
+              <span>How do I claim a 7-day size replacement?</span>
+              <span class="text-neutral-400">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Assisted Callback Routing Form -->
+        <div class="p-4 border border-neutral-200 bg-neutral-50 rounded-xl space-y-3 mt-4">
+          <p class="font-bold text-neutral-800 text-[11px] uppercase tracking-wider">Bypass Queue: Book Assisted Callback</p>
+          <form onsubmit="scheduleCallback(event)" class="space-y-2">
+            <input type="text" id="cb-name" required placeholder="Full Name" class="w-full p-2 border border-neutral-300 rounded text-xs">
+            <input type="tel" id="cb-phone" required placeholder="10-digit Mobile Number" class="w-full p-2 border border-neutral-300 rounded text-xs">
+            <select id="cb-slot" class="w-full p-2 border border-neutral-300 rounded text-xs">
+              <option value="Instant">Within 15 Minutes</option>
+              <option value="Morning">Tomorrow Morning (10:00 AM - 01:00 PM)</option>
+              <option value="Evening">Tomorrow Evening (03:00 PM - 07:00 PM)</option>
+            </select>
+            <button type="submit" class="w-full py-2.5 bg-black text-white text-xs uppercase tracking-wider font-bold rounded hover:bg-neutral-800 transition">Request Executive Callback</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 6: GIFT CARD MODAL -->
   <div id="giftcard-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white border border-neutral-200 rounded-2xl max-w-md w-full p-6 relative flex flex-col">
       <button onclick="closeGiftCardModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
       <span class="text-[10px] uppercase tracking-widest font-bold text-neutral-400">Gift Card & Value Addons</span>
       <h3 class="text-base font-bold text-black mb-3">Dream Store India Gift Voucher Terminal</h3>
-
       <div class="p-4 bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-xl text-white space-y-2 mb-4">
         <div class="flex justify-between items-center text-xs">
           <span class="font-bold company-font tracking-widest">MREEDO LUXE PASS</span>
@@ -238,19 +319,16 @@
         <p class="text-[10px] text-neutral-400">Your Usable Gift Card Wallet Balance:</p>
         <p class="text-2xl font-bold text-amber-400">₹<span id="wallet-balance-card">0</span></p>
       </div>
-
-      <!-- Claim Code Form -->
       <div class="space-y-2 mb-4">
         <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Redeem Electronic Gift Voucher</label>
         <div class="flex gap-2">
-          <input type="text" id="gift-voucher-input" placeholder="Enter 16-Digit Code (e.g. MREEDO-2026-GIFT)" class="flex-1 p-2.5 border border-neutral-300 rounded text-xs uppercase">
+          <input type="text" id="gift-voucher-input" placeholder="Enter 16-Digit Code" class="flex-1 p-2.5 border border-neutral-300 rounded text-xs uppercase">
           <button onclick="redeemGiftCard()" class="px-4 py-2.5 bg-black text-white text-xs font-bold rounded">Redeem</button>
         </div>
-        <p class="text-[10px] text-neutral-500">Demo Code: <strong>MREEDO-2026-GIFT</strong> (+₹1,000 instant credit)</p>
+        <p class="text-[10px] text-neutral-500">Demo Code: <strong>MREEDO-2026-GIFT</strong> (+₹1,000 credit)</p>
       </div>
-
       <div class="border-t border-neutral-200 pt-3">
-        <p class="text-xs font-bold text-black mb-2">Buy a New Gift Card for Family & Friends</p>
+        <p class="text-xs font-bold text-black mb-2">Buy a New Gift Voucher</p>
         <div class="grid grid-cols-3 gap-2">
           <button onclick="buyGiftVoucher(1000)" class="py-2 border border-neutral-300 rounded text-xs font-bold hover:border-black">₹1,000</button>
           <button onclick="buyGiftVoucher(2500)" class="py-2 border border-neutral-300 rounded text-xs font-bold hover:border-black">₹2,500</button>
@@ -260,35 +338,23 @@
     </div>
   </div>
 
-  <!-- MODULE 6: CONTEXTUAL COUPONS DIRECTORY MODAL -->
+  <!-- MODULE 6: COUPONS MODAL -->
   <div id="coupons-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white border border-neutral-200 rounded-2xl max-w-md w-full p-6 relative flex flex-col">
       <button onclick="closeCouponsDirectory()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
       <h3 class="text-base font-bold text-black mb-1">Active Store Promotions & Coupons</h3>
       <p class="text-xs text-neutral-500 mb-4">Click any coupon to copy and apply directly at checkout.</p>
-      
       <div class="space-y-3">
         <div class="p-3 border border-dashed border-amber-500 bg-amber-50/50 rounded-xl flex justify-between items-center">
-          <div>
-            <span class="font-bold text-black text-xs">DREAM10</span>
-            <p class="text-[10px] text-neutral-600">Flat 10% Off on all orders over ₹2,000</p>
-          </div>
+          <div><span class="font-bold text-black text-xs">DREAM10</span><p class="text-[10px] text-neutral-600">Flat 10% Off on orders over ₹2,000</p></div>
           <button onclick="quickApplyCoupon('DREAM10')" class="px-3 py-1 bg-black text-white text-[10px] font-bold rounded">Apply Code</button>
         </div>
-
         <div class="p-3 border border-dashed border-emerald-500 bg-emerald-50/50 rounded-xl flex justify-between items-center">
-          <div>
-            <span class="font-bold text-black text-xs">MREEDO500</span>
-            <p class="text-[10px] text-neutral-600">Flat ₹500 Off on 240+ GSM Heavyweight orders</p>
-          </div>
+          <div><span class="font-bold text-black text-xs">MREEDO500</span><p class="text-[10px] text-neutral-600">Flat ₹500 Off on 240+ GSM orders</p></div>
           <button onclick="quickApplyCoupon('MREEDO500')" class="px-3 py-1 bg-black text-white text-[10px] font-bold rounded">Apply Code</button>
         </div>
-
         <div class="p-3 border border-dashed border-neutral-400 bg-neutral-50 rounded-xl flex justify-between items-center">
-          <div>
-            <span class="font-bold text-black text-xs">SUPER20</span>
-            <p class="text-[10px] text-neutral-600">20% Off on Cart value exceeding ₹5,000</p>
-          </div>
+          <div><span class="font-bold text-black text-xs">SUPER20</span><p class="text-[10px] text-neutral-600">20% Off on Cart exceeding ₹5,000</p></div>
           <button onclick="quickApplyCoupon('SUPER20')" class="px-3 py-1 bg-black text-white text-[10px] font-bold rounded">Apply Code</button>
         </div>
       </div>
@@ -329,20 +395,17 @@
     </div>
   </div>
 
-  <!-- MODULE 3: DYNAMIC CART DRAWER -->
+  <!-- MODULE 3: CART DRAWER -->
   <div id="cart-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col border-l border-neutral-200">
     <div class="p-4 border-b border-neutral-200 flex justify-between items-center">
       <h3 class="font-bold text-sm tracking-wider uppercase">Shopping Bag (<span id="cart-drawer-count">0</span>)</h3>
       <button onclick="toggleCartDrawer()" class="text-neutral-500 hover:text-black text-sm">✕ Close</button>
     </div>
-    
     <div class="bg-neutral-50 px-4 py-2 border-b border-neutral-200 text-[11px] flex justify-between items-center">
       <span class="text-neutral-600">Standard Express Delivery:</span>
       <span class="text-emerald-600 font-bold tracking-wider">COMPLIMENTARY</span>
     </div>
-
     <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
-    
     <div class="p-4 border-t border-neutral-200 bg-neutral-50 space-y-3">
       <div class="flex justify-between text-xs text-neutral-600 font-medium">
         <span>Estimated Subtotal:</span>
@@ -358,7 +421,7 @@
     </div>
   </div>
 
-  <!-- MODULE 3: PERSISTENT WISHLIST DRAWER -->
+  <!-- MODULE 3: WISHLIST DRAWER -->
   <div id="wishlist-drawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col border-l border-neutral-200">
     <div class="p-4 border-b border-neutral-200 flex justify-between items-center">
       <h3 class="font-bold text-sm tracking-wider uppercase">Saved Wishlist (<span id="wishlist-drawer-count">0</span>)</h3>
@@ -373,15 +436,12 @@
       <button onclick="closeBuyNowModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
       <span class="text-[10px] uppercase tracking-widest font-bold text-amber-600">Express Purchase Pipeline</span>
       <h3 class="text-base font-bold text-black mt-1">Instant Single-Item Checkout</h3>
-      
       <div id="buy-now-item-preview" class="my-4 p-3 bg-neutral-50 rounded-xl flex items-center gap-3 border border-neutral-200"></div>
-
       <div class="space-y-3">
         <label class="block text-xs font-semibold uppercase tracking-wider text-neutral-700">Delivery Address</label>
         <div id="buy-now-addresses" class="space-y-2 text-xs"></div>
         <button onclick="openAddressModal()" class="text-[11px] text-blue-600 hover:underline">+ Add New Delivery Location</button>
       </div>
-
       <div class="mt-6 pt-4 border-t border-neutral-200">
         <button onclick="openPaymentGateway('EXPRESS')" class="w-full py-3 bg-black text-white text-xs uppercase tracking-widest font-bold hover:bg-neutral-800 transition">
           Proceed to Payment & Fintech Gateway
@@ -390,7 +450,7 @@
     </div>
   </div>
 
-  <!-- MODULE 4 & 6: PAYMENT & FINTECH GATEWAY MODAL -->
+  <!-- MODULE 4: PAYMENT GATEWAY MODAL -->
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white border border-neutral-200 rounded-2xl max-w-lg w-full p-6 relative max-h-[90vh] flex flex-col">
       <button onclick="closePaymentGateway()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
@@ -399,32 +459,14 @@
         <span class="text-[10px] uppercase tracking-widest font-bold text-neutral-500">256-Bit Encrypted Fintech Node</span>
       </div>
       <h3 class="text-lg font-bold text-black mb-3">Dream Store India Checkout Terminal</h3>
-
       <div class="overflow-y-auto space-y-4 flex-1 pr-1 text-xs">
         <div class="p-3 bg-neutral-50 border border-neutral-200 rounded-xl space-y-1.5">
-          <div class="flex justify-between text-neutral-600">
-            <span>Base Order Total:</span>
-            <span id="gateway-base-price" class="font-bold text-black">₹0</span>
-          </div>
-          <div id="coupon-discount-row" class="hidden justify-between text-emerald-600 font-semibold">
-            <span>Coupon Discount Applied:</span>
-            <span id="coupon-discount-val">-₹0</span>
-          </div>
-          <div id="coins-discount-row" class="hidden justify-between text-amber-600 font-semibold">
-            <span>Dream Coins Loyalty Applied:</span>
-            <span id="coins-discount-val">-₹0</span>
-          </div>
-          <div id="wallet-discount-row" class="hidden justify-between text-emerald-700 font-semibold">
-            <span>Gift Card Wallet Credit Applied:</span>
-            <span id="wallet-discount-val">-₹0</span>
-          </div>
-          <div class="flex justify-between text-sm font-bold text-black border-t border-neutral-200 pt-1.5">
-            <span>Net Payable Amount:</span>
-            <span id="gateway-final-price" class="text-base text-amber-600">₹0</span>
-          </div>
+          <div class="flex justify-between text-neutral-600"><span>Base Order Total:</span><span id="gateway-base-price" class="font-bold text-black">₹0</span></div>
+          <div id="coupon-discount-row" class="hidden justify-between text-emerald-600 font-semibold"><span>Coupon Discount Applied:</span><span id="coupon-discount-val">-₹0</span></div>
+          <div id="coins-discount-row" class="hidden justify-between text-amber-600 font-semibold"><span>Dream Coins Loyalty Applied:</span><span id="coins-discount-val">-₹0</span></div>
+          <div id="wallet-discount-row" class="hidden justify-between text-emerald-700 font-semibold"><span>Gift Card Wallet Credit Applied:</span><span id="wallet-discount-val">-₹0</span></div>
+          <div class="flex justify-between text-sm font-bold text-black border-t border-neutral-200 pt-1.5"><span>Net Payable Amount:</span><span id="gateway-final-price" class="text-base text-amber-600">₹0</span></div>
         </div>
-
-        <!-- Coupon Application Section -->
         <div class="p-3 border border-neutral-200 rounded-xl space-y-2">
           <div class="flex justify-between items-center">
             <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Contextual Coupon Code</label>
@@ -436,75 +478,40 @@
           </div>
           <p id="coupon-status-msg" class="text-[10px] text-neutral-500">Apply verified promo codes to recalculate bill.</p>
         </div>
-
-        <!-- Gift Card Wallet Toggle -->
         <div class="p-3 border border-emerald-200 bg-emerald-50/40 rounded-xl flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="text-base">💳</span>
-            <div>
-              <p class="font-bold text-neutral-800">Use Gift Card Wallet Balance</p>
-              <p class="text-[10px] text-neutral-500">Available Credit: ₹<span id="checkout-wallet-balance">0</span></p>
-            </div>
-          </div>
+          <div class="flex items-center gap-2"><span class="text-base">💳</span><div><p class="font-bold text-neutral-800">Use Gift Card Wallet Balance</p><p class="text-[10px] text-neutral-500">Available Credit: ₹<span id="checkout-wallet-balance">0</span></p></div></div>
           <input type="checkbox" id="use-wallet-checkbox" onchange="toggleWalletDiscount()" class="h-4 w-4 rounded text-emerald-600">
         </div>
-
-        <!-- Coins Toggle -->
         <div class="p-3 border border-amber-200 bg-amber-50/50 rounded-xl flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="text-base">🪙</span>
-            <div>
-              <p class="font-bold text-neutral-800">Use Dream Coins Balance</p>
-              <p class="text-[10px] text-neutral-500">Available: <span id="checkout-coins-balance">50</span> Coins (1 Coin = ₹1)</p>
-            </div>
-          </div>
+          <div class="flex items-center gap-2"><span class="text-base">🪙</span><div><p class="font-bold text-neutral-800">Use Dream Coins Balance</p><p class="text-[10px] text-neutral-500">Available: <span id="checkout-coins-balance">50</span> Coins (1 Coin = ₹1)</p></div></div>
           <input type="checkbox" id="use-coins-checkbox" onchange="toggleCoinDiscount()" class="h-4 w-4 rounded text-amber-500">
         </div>
-
-        <!-- Payment Methods -->
         <div class="space-y-2">
           <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Select Payment Architecture</label>
-          
           <label class="flex items-start gap-3 p-3 border border-neutral-200 rounded-xl cursor-pointer hover:border-black transition">
             <input type="radio" name="payment-method" value="UPI" checked class="mt-1">
             <div class="flex-1">
-              <div class="flex justify-between items-center">
-                <span class="font-bold text-black">Instant UPI Payment (Fastest)</span>
-                <span class="text-[10px] bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-600 font-semibold">GPay / PhonePe / Paytm</span>
-              </div>
+              <div class="flex justify-between items-center"><span class="font-bold text-black">Instant UPI Payment (Fastest)</span><span class="text-[10px] bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-600 font-semibold">GPay / PhonePe / Paytm</span></div>
               <p class="text-[11px] text-neutral-500 mt-0.5">Pay seamlessly using any UPI App or QR code.</p>
             </div>
           </label>
-
           <label class="flex items-start gap-3 p-3 border border-neutral-200 rounded-xl cursor-pointer hover:border-black transition">
             <input type="radio" name="payment-method" value="CARD" class="mt-1">
-            <div class="flex-1">
-              <span class="font-bold text-black">Credit / Debit Card Tokenization</span>
-              <p class="text-[11px] text-neutral-500 mt-0.5">Visa, Mastercard, RuPay & Amex.</p>
-            </div>
+            <div class="flex-1"><span class="font-bold text-black">Credit / Debit Card Tokenization</span><p class="text-[11px] text-neutral-500 mt-0.5">Visa, Mastercard, RuPay & Amex.</p></div>
           </label>
-
           <label class="flex items-start gap-3 p-3 border border-neutral-200 rounded-xl cursor-pointer hover:border-black transition">
             <input type="radio" name="payment-method" value="COD" class="mt-1">
-            <div class="flex-1">
-              <span class="font-bold text-black">Cash on Delivery (COD)</span>
-              <p class="text-[11px] text-neutral-500 mt-0.5">Pay at your doorstep with verified delivery OTP.</p>
-            </div>
+            <div class="flex-1"><span class="font-bold text-black">Cash on Delivery (COD)</span><p class="text-[11px] text-neutral-500 mt-0.5">Pay at your doorstep with verified delivery OTP.</p></div>
           </label>
-
           <label class="flex items-start gap-3 p-3 border border-neutral-200 rounded-xl cursor-pointer hover:border-black transition">
             <input type="radio" name="payment-method" value="EMI" class="mt-1">
             <div class="flex-1">
-              <div class="flex justify-between items-center">
-                <span class="font-bold text-black">Pay Later / No-Cost EMI</span>
-                <span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-semibold">0% Interest</span>
-              </div>
+              <div class="flex justify-between items-center"><span class="font-bold text-black">Pay Later / No-Cost EMI</span><span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-semibold">0% Interest</span></div>
               <p class="text-[11px] text-neutral-500 mt-0.5" id="emi-calc-preview">Starting from ₹833/month on 3-month tenure.</p>
             </div>
           </label>
         </div>
       </div>
-
       <div class="mt-4 pt-3 border-t border-neutral-200">
         <button onclick="finalizePaymentExecution()" class="w-full py-3 bg-black hover:bg-neutral-800 text-white text-xs uppercase tracking-widest font-bold rounded-xl transition">
           Authorize & Place Order
@@ -580,9 +587,10 @@
           <p><a href="/terms.html" class="text-neutral-500 hover:text-black">Terms & Privacy Policy</a></p>
         </div>
         <div class="space-y-2 uppercase tracking-widest text-[11px]">
-          <h4 class="font-bold text-black">Help & Support</h4>
-          <p class="text-neutral-500">Concierge Desk</p>
-          <p class="text-black font-semibold">trade.dreamstoreindia.com</p>
+          <h4 class="font-bold text-black">Customer Concierge</h4>
+          <p><button onclick="openHelpCenterModal()" class="text-neutral-500 hover:text-black">Help Directory & Callback</button></p>
+          <p><button onclick="toggleAiAssistant()" class="text-neutral-500 hover:text-black">24/7 AI Chatbot Assistant</button></p>
+          <p class="text-black font-semibold mt-1">trade.dreamstoreindia.com</p>
         </div>
       </div>
       <div class="pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-neutral-400 text-[11px]">
@@ -592,7 +600,7 @@
     </div>
   </footer>
 
-  <!-- Application Engine: Modules 1 to 6 Complete Engine -->
+  <!-- Application Engine: Modules 1 to 7 Full Ecosystem -->
   <script>
     const products = [
       { id: 1, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Noir Heavyweight Boxy Tee", gsm: "260 GSM", gsmNum: 260, price: 2499, originalPrice: 3499, rating: 4.9, stock: 4, launchDate: "2026-08-10", image: "/tee1.jpg", fit: "Boxy Cut", weave: "French Terry Cotton", availableSizes: ['S', 'M', 'L', 'XL'] },
@@ -619,7 +627,6 @@
     let addresses = JSON.parse(localStorage.getItem('mreedo_addresses') || '[]');
     let orders = JSON.parse(localStorage.getItem('mreedo_orders') || '[]');
 
-    // MODULE 4 & 6: Fintech & Value Addon State
     let userCoins = parseInt(localStorage.getItem('mreedo_coins') || '50');
     let userWallet = parseInt(localStorage.getItem('mreedo_wallet') || '0');
     let activeCheckoutSource = 'CART';
@@ -1009,7 +1016,6 @@
       }
     }
 
-    // Flash countdown timer simulation
     let countdownHours = 5, countdownMins = 42, countdownSecs = 18;
     setInterval(() => {
       if (countdownSecs > 0) countdownSecs--;
@@ -1026,7 +1032,79 @@
       if (el) el.innerText = `Ends in ${pad(countdownHours)}h : ${pad(countdownMins)}m : ${pad(countdownSecs)}s`;
     }, 1000);
 
-    // --- MODULE 4 & 6: PAYMENT ENGINE ---
+    // --- MODULE 7: CUSTOMER SUPPORT & AI CONCIERGE ENGINE ---
+    function toggleAiAssistant() {
+      document.getElementById('ai-chat-drawer').classList.toggle('hidden');
+    }
+
+    function sendAiMessage() {
+      const input = document.getElementById('ai-user-query');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chatBox = document.getElementById('ai-chat-messages');
+      chatBox.innerHTML += `
+        <div class="text-right">
+          <span class="inline-block bg-neutral-900 text-white p-2 rounded-xl text-left max-w-[80%]">${text}</span>
+        </div>
+      `;
+      input.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      setTimeout(() => {
+        let reply = "I am connecting you with the concierge desk at trade.dreamstoreindia.com. For urgent order status, please check the 'Orders' tab in the navbar.";
+        const lower = text.toLowerCase();
+        if (lower.includes('track') || lower.includes('order') || lower.includes('status')) {
+          reply = orders.length > 0 
+            ? `Your recent order #${orders[0].orderId} is currently in progress: [${orders[0].statusText}]. You can view full tracking in your Orders modal.` 
+            : "You don't have any active orders right now. Once placed, you can live track them in the Orders tab.";
+        } else if (lower.includes('gsm') || lower.includes('fabric')) {
+          reply = "All MREEDO t-shirts feature structural 240+ to 280+ GSM pure combed cotton, designed with drop shoulder relaxed silhouettes.";
+        } else if (lower.includes('exchange') || lower.includes('return')) {
+          reply = "We offer a 7-day complimentary replacement policy. Open 'Orders', find your item, and tap '7-Day Return / Exchange'.";
+        } else if (lower.includes('coupon') || lower.includes('discount')) {
+          reply = "Use code 'DREAM10' for 10% off, or 'MREEDO500' for flat ₹500 off on heavyweight orders.";
+        }
+
+        chatBox.innerHTML += `
+          <div class="text-left">
+            <span class="inline-block bg-white text-neutral-800 border border-neutral-200 p-2.5 rounded-xl max-w-[85%]">${reply}</span>
+          </div>
+        `;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 500);
+    }
+
+    function openHelpCenterModal() {
+      document.getElementById('help-modal').classList.remove('hidden');
+    }
+
+    function closeHelpCenterModal() {
+      document.getElementById('help-modal').classList.add('hidden');
+    }
+
+    function resolveHelpIssue(type) {
+      if (type === 'DELAY') {
+        alert("Logistics Matrix Check: All standard shipments are fulfilled within 2-4 business days across India. Check your order tracking pipeline for transit updates.");
+      } else if (type === 'REFUND') {
+        alert("Refund Lifecycle: Cancelled transactions trigger automatic electronic reversals via your UPI/Card gateway within 24 to 48 banking hours.");
+      } else if (type === 'EXCHANGE') {
+        alert("Exchange Guidelines: Size exchanges are permitted within 7 days of delivery. Ensure original tags and brand packaging are intact.");
+      }
+    }
+
+    function scheduleCallback(e) {
+      e.preventDefault();
+      const name = document.getElementById('cb-name').value;
+      const phone = document.getElementById('cb-phone').value;
+      const slot = document.getElementById('cb-slot').value;
+
+      alert(`Callback booked successfully for ${name} (${phone}) during ${slot} window. A Dream Store India concierge specialist will reach out.`);
+      closeHelpCenterModal();
+      e.target.reset();
+    }
+
+    // --- MODULE 4: PAYMENT ENGINE ---
     function openPaymentGateway(source) {
       activeCheckoutSource = source;
 
@@ -1162,7 +1240,7 @@
 
       if (appliedCoinsDiscount > 0) userCoins -= appliedCoinsDiscount;
       if (appliedWalletDiscount > 0) userWallet -= appliedWalletDiscount;
-      userCoins += 20; // Loyalty gain
+      userCoins += 20;
       
       localStorage.setItem('mreedo_coins', userCoins);
       localStorage.setItem('mreedo_wallet', userWallet);
