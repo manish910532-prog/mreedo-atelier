@@ -66,6 +66,12 @@
       <!-- Action Utilities -->
       <div class="flex items-center gap-4 sm:gap-6 flex-shrink-0">
         
+        <!-- MODULE 4: Dream Coins Rewards Balance Badge -->
+        <div class="hidden lg:flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200 rounded-full text-xs font-semibold text-amber-900" title="Dream Coins Loyalty Balance">
+          <span class="h-4 w-4 rounded-full bg-amber-400 text-black flex items-center justify-center font-bold text-[10px]">🪙</span>
+          <span id="nav-coins-balance">50 Coins</span>
+        </div>
+
         <!-- MODULE 3: Comparison Matrix Launch Button -->
         <button onclick="openCompareModal()" class="relative p-1 text-black hover:opacity-75 transition hidden sm:flex items-center gap-1" title="Compare Products">
           <svg class="w-5 h-5 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
@@ -99,6 +105,10 @@
             <div class="px-4 py-2 border-b border-neutral-100">
               <p id="user-display-name" class="text-xs font-bold text-black truncate">User</p>
               <p id="user-display-email" class="text-[11px] text-neutral-500 truncate">user@dreamstore.in</p>
+              <div class="mt-2 flex items-center justify-between text-[10px] bg-neutral-50 p-1.5 rounded">
+                <span class="text-neutral-500 font-semibold">Dream Coins:</span>
+                <span class="font-bold text-amber-700">🪙 <span id="dropdown-coins">50</span></span>
+              </div>
             </div>
             <button onclick="openAddressModal()" class="w-full text-left px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100">Manage Addresses (Home/Office)</button>
             <button onclick="deleteAccountPermanent()" class="w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50">Permanent Account Erasure</button>
@@ -186,7 +196,6 @@
       <button onclick="closeCompareModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
       <span class="text-[10px] uppercase tracking-widest font-bold text-neutral-400">Flipkart Specification Benchmarks</span>
       <h3 class="text-base font-bold text-black mb-4">MREEDO Side-by-Side Comparison Framework</h3>
-      
       <div id="compare-content" class="overflow-x-auto"></div>
     </div>
   </div>
@@ -214,8 +223,8 @@
         <span>Total Amount:</span>
         <span id="cart-drawer-total">₹0</span>
       </div>
-      <button onclick="proceedToMultiCheckout()" class="w-full py-3 bg-black hover:bg-neutral-800 text-white text-xs uppercase tracking-widest font-bold transition">
-        Proceed to Checkout
+      <button onclick="openPaymentGateway('CART')" class="w-full py-3 bg-black hover:bg-neutral-800 text-white text-xs uppercase tracking-widest font-bold transition">
+        Proceed to Secure Checkout
       </button>
     </div>
   </div>
@@ -245,8 +254,120 @@
       </div>
 
       <div class="mt-6 pt-4 border-t border-neutral-200">
-        <button onclick="executeInstantOrder()" class="w-full py-3 bg-black text-white text-xs uppercase tracking-widest font-bold hover:bg-neutral-800 transition">
-          Confirm Instant Order (COD / UPI Intent)
+        <button onclick="openPaymentGateway('EXPRESS')" class="w-full py-3 bg-black text-white text-xs uppercase tracking-widest font-bold hover:bg-neutral-800 transition">
+          Proceed to Payment & Fintech Gateway
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 4: PAYMENT PROCESSING & FINTECH GATEWAY MODAL -->
+  <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white border border-neutral-200 rounded-2xl max-w-lg w-full p-6 relative max-h-[90vh] flex flex-col">
+      <button onclick="closePaymentGateway()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span class="text-[10px] uppercase tracking-widest font-bold text-neutral-500">256-Bit Encrypted Fintech Node</span>
+      </div>
+      <h3 class="text-lg font-bold text-black mb-3">Dream Store India Checkout Terminal</h3>
+
+      <div class="overflow-y-auto space-y-4 flex-1 pr-1 text-xs">
+        
+        <!-- Order Bill Summary -->
+        <div class="p-3 bg-neutral-50 border border-neutral-200 rounded-xl space-y-1.5">
+          <div class="flex justify-between text-neutral-600">
+            <span>Base Order Total:</span>
+            <span id="gateway-base-price" class="font-bold text-black">₹0</span>
+          </div>
+          <div id="coupon-discount-row" class="hidden justify-between text-emerald-600 font-semibold">
+            <span>Coupon Discount Applied:</span>
+            <span id="coupon-discount-val">-₹0</span>
+          </div>
+          <div id="coins-discount-row" class="hidden justify-between text-amber-600 font-semibold">
+            <span>Dream Coins Loyalty Applied:</span>
+            <span id="coins-discount-val">-₹0</span>
+          </div>
+          <div class="flex justify-between text-sm font-bold text-black border-t border-neutral-200 pt-1.5">
+            <span>Net Payable Amount:</span>
+            <span id="gateway-final-price" class="text-base text-amber-600">₹0</span>
+          </div>
+        </div>
+
+        <!-- MODULE 6 / 4: Coupon Engine -->
+        <div class="p-3 border border-neutral-200 rounded-xl space-y-2">
+          <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Contextual Coupon Code</label>
+          <div class="flex gap-2">
+            <input type="text" id="coupon-input" placeholder="e.g. DREAM10 or MREEDO500" class="flex-1 p-2 border border-neutral-300 rounded text-xs uppercase">
+            <button onclick="applyCoupon()" class="px-3 py-1.5 bg-neutral-900 text-white font-bold rounded text-xs">Apply</button>
+          </div>
+          <p id="coupon-status-msg" class="text-[10px] text-neutral-500">Try code <strong>DREAM10</strong> for 10% instant discount.</p>
+        </div>
+
+        <!-- MODULE 4: Dream Coins Redemption (SuperCoins Model) -->
+        <div class="p-3 border border-amber-200 bg-amber-50/50 rounded-xl flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🪙</span>
+            <div>
+              <p class="font-bold text-neutral-800">Use Dream Coins Balance</p>
+              <p class="text-[10px] text-neutral-500">Available: <span id="checkout-coins-balance">50</span> Coins (1 Coin = ₹1)</p>
+            </div>
+          </div>
+          <input type="checkbox" id="use-coins-checkbox" onchange="toggleCoinDiscount()" class="h-4 w-4 rounded text-amber-500 focus:ring-0">
+        </div>
+
+        <!-- Multi-Rail Payment Method Options -->
+        <div class="space-y-2">
+          <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Select Payment Architecture</label>
+          
+          <!-- UPI Option -->
+          <label class="flex items-start gap-3 p-3 border border-neutral-200 rounded-xl cursor-pointer hover:border-black transition">
+            <input type="radio" name="payment-method" value="UPI" checked class="mt-1">
+            <div class="flex-1">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-black">Instant UPI Payment (Fastest)</span>
+                <span class="text-[10px] bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-600 font-semibold">GPay / PhonePe / Paytm</span>
+              </div>
+              <p class="text-[11px] text-neutral-500 mt-0.5">Pay seamlessly using any UPI App or QR code.</p>
+            </div>
+          </label>
+
+          <!-- Cards Option -->
+          <label class="flex items-start gap-3 p-3 border border-neutral-200 rounded-xl cursor-pointer hover:border-black transition">
+            <input type="radio" name="payment-method" value="CARD" class="mt-1">
+            <div class="flex-1">
+              <span class="font-bold text-black">Credit / Debit Card Tokenization</span>
+              <p class="text-[11px] text-neutral-500 mt-0.5">Visa, Mastercard, RuPay & American Express with RBI standard tokens.</p>
+            </div>
+          </label>
+
+          <!-- Cash on Delivery Option -->
+          <label class="flex items-start gap-3 p-3 border border-neutral-200 rounded-xl cursor-pointer hover:border-black transition">
+            <input type="radio" name="payment-method" value="COD" class="mt-1">
+            <div class="flex-1">
+              <span class="font-bold text-black">Cash on Delivery (COD)</span>
+              <p class="text-[11px] text-neutral-500 mt-0.5">Pay at your doorstep with verified phone OTP delivery check.</p>
+            </div>
+          </label>
+
+          <!-- MODULE 4: Flexible Installments (EMI / Pay Later Preview) -->
+          <label class="flex items-start gap-3 p-3 border border-neutral-200 rounded-xl cursor-pointer hover:border-black transition">
+            <input type="radio" name="payment-method" value="EMI" class="mt-1">
+            <div class="flex-1">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-black">Flipkart-Style Pay Later / No-Cost EMI</span>
+                <span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-semibold">0% Interest</span>
+              </div>
+              <p class="text-[11px] text-neutral-500 mt-0.5" id="emi-calc-preview">Starting from ₹833/month on 3-month tenure.</p>
+            </div>
+          </label>
+        </div>
+
+      </div>
+
+      <!-- Action Button -->
+      <div class="mt-4 pt-3 border-t border-neutral-200">
+        <button onclick="finalizePaymentExecution()" class="w-full py-3 bg-black hover:bg-neutral-800 text-white text-xs uppercase tracking-widest font-bold rounded-xl transition">
+          Authorize & Place Order
         </button>
       </div>
     </div>
@@ -331,7 +452,7 @@
     </div>
   </footer>
 
-  <!-- Application Engine: Complete Modules 1, 2, 3 -->
+  <!-- Application Engine: Modules 1, 2, 3, 4 Fully Integrated -->
   <script>
     const products = [
       { id: 1, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Noir Heavyweight Boxy Tee", gsm: "260 GSM", gsmNum: 260, price: 2499, originalPrice: 3499, rating: 4.9, stock: 4, launchDate: "2026-08-10", image: "/tee1.jpg", fit: "Boxy Cut", weave: "French Terry Cotton", availableSizes: ['S', 'M', 'L', 'XL'] },
@@ -356,6 +477,13 @@
     let compareList = JSON.parse(localStorage.getItem('mreedo_compare') || '[]');
     let currentUser = JSON.parse(localStorage.getItem('mreedo_user') || 'null');
     let addresses = JSON.parse(localStorage.getItem('mreedo_addresses') || '[]');
+
+    // MODULE 4: Fintech State
+    let userCoins = parseInt(localStorage.getItem('mreedo_coins') || '50');
+    let activeCheckoutSource = 'CART'; // 'CART' or 'EXPRESS'
+    let currentOrderBaseTotal = 0;
+    let appliedCouponDiscount = 0;
+    let appliedCoinsDiscount = 0;
 
     // --- MODULE 2: CATALOG RENDERING ---
     function renderCatalog() {
@@ -405,7 +533,6 @@
                 ${p.gsm}
               </span>
 
-              <!-- Wishlist Button -->
               <button onclick="toggleWishlist(${p.id})" class="absolute top-2 right-2 h-7 w-7 rounded-full bg-white/90 flex items-center justify-center hover:bg-white transition" title="Save to Wishlist">
                 <svg class="w-4 h-4 ${inWishlist ? 'text-red-600 fill-red-600' : 'text-neutral-700'}" fill="${inWishlist ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
               </button>
@@ -426,7 +553,7 @@
                 </div>
               </div>
 
-              <!-- Available Sizes -->
+              <!-- Sizes -->
               <div class="space-y-1">
                 <span class="text-[9px] uppercase tracking-widest text-neutral-400">Select Size:</span>
                 <div class="flex items-center gap-1">
@@ -441,7 +568,6 @@
                 </div>
               </div>
 
-              <!-- Action Toolbar -->
               <div class="grid grid-cols-2 gap-2 pt-1">
                 <button onclick="addToCart(${p.id})" class="py-2.5 bg-neutral-100 hover:bg-neutral-200 text-black text-[10px] uppercase tracking-widest font-bold transition">
                   Add to Bag
@@ -451,7 +577,6 @@
                 </button>
               </div>
 
-              <!-- Compare Checkbox -->
               <button onclick="toggleCompare(${p.id})" class="text-[10px] text-left text-neutral-500 hover:text-black flex items-center gap-1 mt-1">
                 <input type="checkbox" ${inCompare ? 'checked' : ''} class="pointer-events-none">
                 <span>${inCompare ? 'Added to Compare' : 'Add to Compare'}</span>
@@ -487,7 +612,7 @@
 
     function openCompareModal() {
       if (compareList.length === 0) {
-        alert('Please select at least 1 product to compare using "Add to Compare" on products.');
+        alert('Please select products using "Add to Compare" on items.');
         return;
       }
       const container = document.getElementById('compare-content');
@@ -514,10 +639,6 @@
               ${compareList.map(c => `<td class="p-3 border border-neutral-200 text-center">${c.weave}</td>`).join('')}
             </tr>
             <tr>
-              <td class="p-3 border border-neutral-200 font-semibold text-neutral-600">Cut & Fit</td>
-              ${compareList.map(c => `<td class="p-3 border border-neutral-200 text-center">${c.fit}</td>`).join('')}
-            </tr>
-            <tr>
               <td class="p-3 border border-neutral-200 font-semibold text-neutral-600">Price</td>
               ${compareList.map(c => `<td class="p-3 border border-neutral-200 text-center font-bold text-black">₹${c.price}</td>`).join('')}
             </tr>
@@ -539,7 +660,7 @@
       document.getElementById('compare-modal').classList.add('hidden');
     }
 
-    // --- MODULE 3: DYNAMIC CART WITH QUANTITY LOGIC ---
+    // --- MODULE 3: DYNAMIC CART ---
     function addToCart(prodId) {
       const item = products.find(p => p.id === prodId);
       const size = selectedItemSizes[prodId] || 'L';
@@ -613,7 +734,7 @@
       renderCartUI();
     }
 
-    // --- MODULE 3: WISHLIST PIPELINE WITH PRICE-DROP ALERTS ---
+    // --- MODULE 3: WISHLIST ---
     function toggleWishlist(prodId) {
       const index = wishlist.findIndex(w => w.id === prodId);
       const item = products.find(p => p.id === prodId);
@@ -651,7 +772,7 @@
       `).join('');
     }
 
-    // --- MODULE 3: EXPRESS BUY NOW PIPELINE ---
+    // --- MODULE 3: EXPRESS BUY NOW ---
     function openBuyNow(prodId) {
       const item = products.find(p => p.id === prodId);
       const size = selectedItemSizes[prodId] || 'L';
@@ -690,14 +811,144 @@
       `).join('');
     }
 
-    function executeInstantOrder() {
-      if (addresses.length === 0) {
-        alert('Please add a delivery address first.');
-        openAddressModal();
+    // --- MODULE 4: PAYMENT PROCESSING & FINTECH ENGINE ---
+    function openPaymentGateway(source) {
+      activeCheckoutSource = source;
+
+      if (!currentUser) {
+        if (source === 'CART') toggleCartDrawer();
+        if (source === 'EXPRESS') closeBuyNowModal();
+        openAuthModal(false);
+        alert('Please sign in to access the secure payment gateway.');
         return;
       }
-      alert(`Instant Order Confirmed for ${expressProduct.name} (Size: ${expressProduct.size})!`);
-      closeBuyNowModal();
+
+      if (source === 'CART' && cart.length === 0) {
+        alert('Your shopping bag is empty.');
+        return;
+      }
+
+      if (source === 'CART') {
+        currentOrderBaseTotal = cart.reduce((sum, i) => sum + (i.price * (i.qty || 1)), 0);
+        toggleCartDrawer();
+      } else {
+        currentOrderBaseTotal = expressProduct.price;
+        closeBuyNowModal();
+      }
+
+      appliedCouponDiscount = 0;
+      appliedCoinsDiscount = 0;
+      document.getElementById('use-coins-checkbox').checked = false;
+      document.getElementById('coupon-input').value = '';
+      document.getElementById('coupon-status-msg').innerText = 'Try code DREAM10 for 10% instant discount.';
+
+      recalculatePaymentBreakdown();
+      document.getElementById('payment-modal').classList.remove('hidden');
+    }
+
+    function closePaymentGateway() {
+      document.getElementById('payment-modal').classList.add('hidden');
+    }
+
+    function recalculatePaymentBreakdown() {
+      const baseEl = document.getElementById('gateway-base-price');
+      const finalEl = document.getElementById('gateway-final-price');
+      const couponRow = document.getElementById('coupon-discount-row');
+      const couponVal = document.getElementById('coupon-discount-val');
+      const coinsRow = document.getElementById('coins-discount-row');
+      const coinsVal = document.getElementById('coins-discount-val');
+      const emiPreview = document.getElementById('emi-calc-preview');
+
+      baseEl.innerText = `₹${currentOrderBaseTotal.toLocaleString('en-IN')}`;
+
+      // Coupon check
+      if (appliedCouponDiscount > 0) {
+        couponRow.classList.remove('hidden');
+        couponRow.classList.add('flex');
+        couponVal.innerText = `-₹${appliedCouponDiscount.toLocaleString('en-IN')}`;
+      } else {
+        couponRow.classList.add('hidden');
+        couponRow.classList.remove('flex');
+      }
+
+      // Coins check
+      if (appliedCoinsDiscount > 0) {
+        coinsRow.classList.remove('hidden');
+        coinsRow.classList.add('flex');
+        coinsVal.innerText = `-₹${appliedCoinsDiscount.toLocaleString('en-IN')}`;
+      } else {
+        coinsRow.classList.add('hidden');
+        coinsRow.classList.remove('flex');
+      }
+
+      const netPayable = Math.max(0, currentOrderBaseTotal - appliedCouponDiscount - appliedCoinsDiscount);
+      finalEl.innerText = `₹${netPayable.toLocaleString('en-IN')}`;
+
+      // 3-Month EMI Preview
+      const monthlyEmi = Math.round(netPayable / 3);
+      emiPreview.innerText = `Starting from ₹${monthlyEmi.toLocaleString('en-IN')}/month on 3-month tenure.`;
+
+      document.getElementById('checkout-coins-balance').innerText = userCoins;
+    }
+
+    function applyCoupon() {
+      const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+      const statusMsg = document.getElementById('coupon-status-msg');
+
+      if (code === 'DREAM10') {
+        appliedCouponDiscount = Math.round(currentOrderBaseTotal * 0.10);
+        statusMsg.innerText = '✓ Code DREAM10 applied: 10% Discount saved!';
+        statusMsg.className = 'text-[10px] text-emerald-600 font-bold';
+      } else if (code === 'MREEDO500') {
+        appliedCouponDiscount = 500;
+        statusMsg.innerText = '✓ Code MREEDO500 applied: Flat ₹500 saved!';
+        statusMsg.className = 'text-[10px] text-emerald-600 font-bold';
+      } else {
+        appliedCouponDiscount = 0;
+        statusMsg.innerText = '✕ Invalid promotional coupon code.';
+        statusMsg.className = 'text-[10px] text-red-600 font-semibold';
+      }
+      recalculatePaymentBreakdown();
+    }
+
+    function toggleCoinDiscount() {
+      const isChecked = document.getElementById('use-coins-checkbox').checked;
+      if (isChecked) {
+        appliedCoinsDiscount = Math.min(userCoins, currentOrderBaseTotal - appliedCouponDiscount);
+      } else {
+        appliedCoinsDiscount = 0;
+      }
+      recalculatePaymentBreakdown();
+    }
+
+    function finalizePaymentExecution() {
+      const method = document.querySelector('input[name="payment-method"]:checked').value;
+      const netPayable = Math.max(0, currentOrderBaseTotal - appliedCouponDiscount - appliedCoinsDiscount);
+
+      // Deduct coins if used
+      if (appliedCoinsDiscount > 0) {
+        userCoins -= appliedCoinsDiscount;
+      }
+      // Add coins rewards (+20 coins on successful transaction)
+      userCoins += 20;
+      localStorage.setItem('mreedo_coins', userCoins);
+      updateCoinsDisplay();
+
+      if (activeCheckoutSource === 'CART') {
+        cart = [];
+        localStorage.removeItem('mreedo_cart');
+        updateBadges();
+        renderCartUI();
+      }
+
+      closePaymentGateway();
+      alert(`Payment of ₹${netPayable.toLocaleString('en-IN')} Authorized successfully via ${method}! 20 Dream Coins credited to your wallet.`);
+    }
+
+    function updateCoinsDisplay() {
+      document.getElementById('nav-coins-balance').innerText = `${userCoins} Coins`;
+      const dropEl = document.getElementById('dropdown-coins');
+      if (dropEl) dropEl.innerText = userCoins;
     }
 
     // --- UI UTILITIES & ADDRESS BOOK ---
@@ -886,20 +1137,6 @@
         window.location.reload();
       }
     }
-    function proceedToMultiCheckout() {
-      if (cart.length === 0) return alert('Bag is empty.');
-      if (!currentUser) {
-        toggleCartDrawer();
-        openAuthModal(false);
-        return;
-      }
-      alert('Order placed successfully! Delivery tracking triggered.');
-      cart = [];
-      localStorage.removeItem('mreedo_cart');
-      updateBadges();
-      renderCartUI();
-      toggleCartDrawer();
-    }
 
     // Init Execution
     renderCatalog();
@@ -907,6 +1144,7 @@
     renderCartUI();
     renderWishlistUI();
     syncUser();
+    updateCoinsDisplay();
   </script>
 </body>
 </html>
