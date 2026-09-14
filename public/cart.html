@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Bag | Mreedo Atelier</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen p-4 sm:p-8">
+  <div class="max-w-2xl mx-auto space-y-6">
+    <a href="/" class="text-xs text-amber-400 hover:underline">← Continue Shopping</a>
+    <h1 class="text-2xl sm:text-3xl font-bold text-white">Your Shopping Bag</h1>
+
+    <div id="cart-list" class="space-y-4">
+      <!-- Items load dynamically -->
+    </div>
+
+    <div class="p-6 bg-zinc-900 border border-zinc-800 rounded-2xl space-y-4">
+      <div class="flex justify-between items-center text-sm">
+        <span class="text-zinc-400">Total Order Value:</span>
+        <span id="total-val" class="text-xl font-bold text-amber-400">₹0</span>
+      </div>
+      <button onclick="checkout()" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-xl text-sm transition">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('mreedo_cart') || '[]');
+
+    function renderCart() {
+      const container = document.getElementById('cart-list');
+      const totalEl = document.getElementById('total-val');
+      if (cart.length === 0) {
+        container.innerHTML = '<div class="p-8 text-center bg-zinc-900 rounded-2xl border border-zinc-800 text-zinc-400 text-sm">Your bag is currently empty.</div>';
+        totalEl.innerText = '₹0';
+        return;
+      }
+
+      let total = 0;
+      container.innerHTML = cart.map((item, index) => {
+        total += item.price;
+        return `
+          <div class="flex items-center justify-between p-4 bg-zinc-900 border border-zinc-800 rounded-xl">
+            <div class="flex items-center gap-4">
+              <img src="${item.image}" alt="${item.name}" onerror="this.src='/logo.jpg'" class="h-16 w-16 rounded-lg object-cover">
+              <div>
+                <h3 class="text-sm font-semibold text-white">${item.name}</h3>
+                <p class="text-xs text-zinc-400">${item.fabric || ''}</p>
+                <p class="text-sm font-bold text-amber-400 mt-1">₹${item.price.toLocaleString('en-IN')}</p>
+              </div>
+            </div>
+            <button onclick="removeItem(${index})" class="text-xs text-red-400 hover:text-red-300 px-3 py-1.5 rounded-lg border border-red-900/50 hover:bg-red-950/40">Remove</button>
+          </div>
+        `;
+      }).join('');
+      totalEl.innerText = `₹${total.toLocaleString('en-IN')}`;
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('mreedo_cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function checkout() {
+      if (cart.length === 0) return alert('Your bag is empty.');
+      const user = JSON.parse(localStorage.getItem('mreedo_user') || 'null');
+      if (!user) {
+        alert('Please sign in first to place your order.');
+        window.location.href = '/auth.html';
+        return;
+      }
+      alert('Order placed successfully! Our team will contact you for delivery confirmation.');
+      localStorage.removeItem('mreedo_cart');
+      window.location.href = '/';
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>
