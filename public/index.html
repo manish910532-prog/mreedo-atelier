@@ -224,6 +224,68 @@
       }
     }
 
+    function deleteAccount() {
+      if (confirm('Warning: Are you sure you want to permanently delete your account and all order records? This cannot be undone.')) {
+        localStorage.removeItem('mreedo_user');
+        localStorage.removeItem('mreedo_cart');
+        alert('Your account has been deleted.');
+        window.location.reload();
+      }
+    }
+
+    // --- Yahan se paste karein ---
+    const products = [
+      { id: 1, name: "Oversized Heavyweight Tee - Noir", price: 2499, fabric: "260 GSM French Terry Cotton", image: "/tee1.jpg" },
+      { id: 2, name: "Vintage Acid Wash Tee", price: 2799, fabric: "240 GSM Combed Cotton", image: "/tee2.jpg" },
+      { id: 3, name: "Atelier Signature Minimal Tee", price: 2299, fabric: "250 GSM Luxury Interlock", image: "/tee3.jpg" },
+      { id: 4, name: "Monochrome Street Silhouette Tee", price: 2999, fabric: "280 GSM Heavy Jersey", image: "/tee4.jpg" }
+    ];
+
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      if (!grid) return;
+      grid.innerHTML = products.map(item => `
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col group hover:border-amber-500/40 transition">
+          <div class="aspect-square bg-zinc-800 overflow-hidden relative">
+            <img src="${item.image}" alt="${item.name}" onerror="this.src='/logo.jpg'" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <span class="absolute top-2 left-2 bg-black/70 backdrop-blur text-[10px] text-zinc-300 px-2 py-0.5 rounded border border-zinc-700">${item.fabric}</span>
+          </div>
+          <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+            <div>
+              <h3 class="font-semibold text-sm text-zinc-100">${item.name}</h3>
+              <p class="text-amber-400 font-bold text-base mt-1">₹${item.price.toLocaleString('en-IN')}</p>
+            </div>
+            <button onclick="addToCart(${item.id})" class="w-full py-2 bg-zinc-800 hover:bg-amber-500 hover:text-black text-xs font-semibold rounded transition">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    let cart = JSON.parse(localStorage.getItem('mreedo_cart') || '[]');
+    function updateCartCounter() {
+      const counter = document.getElementById('cart-counter');
+      if (counter) counter.innerText = cart.length;
+    }
+    function addToCart(productId) {
+      const item = products.find(p => p.id === productId);
+      if (item) {
+        cart.push(item);
+        localStorage.setItem('mreedo_cart', JSON.stringify(cart));
+        updateCartCounter();
+        alert(`${item.name} added to cart!`);
+      }
+    }
+
+    renderProducts();
+    updateCartCounter();
+    // --- Yahan tak ---
+
+    renderUserNav();
+  </script>
+</body>
+</html>
     renderUserNav();// Products Data
     const products = [
       {
