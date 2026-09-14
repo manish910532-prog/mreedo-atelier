@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MREEDO | Luxury Streetwear & Fashion Atelier</title>
   <meta name="application-name" content="Dream Store India">
+  <meta name="description" content="Official Mreedo Atelier Store. Buy luxury streetwear heavyweight oversized t-shirts.">
+  <meta name="keywords" content="mreedo, mreedo atelier, luxury streetwear, dream store india">
+  <meta name="robots" content="index, follow">
 
-  <!-- Schema Markup -->
+  <!-- Schema Markup for Site Name -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -17,59 +20,67 @@
   }
   </script>
 
-  <!-- Favicons -->
+  <!-- Google Verification & Favicons -->
+  <meta name="google-site-verification" content="google4226d4fbf78612e8.html" />
   <link rel="icon" type="image/jpeg" href="https://mreedo-atelier.onrender.com/logo.jpg">
+  <link rel="shortcut icon" href="https://mreedo-atelier.onrender.com/logo.jpg">
   <link rel="apple-touch-icon" href="https://mreedo-atelier.onrender.com/logo.jpg">
 
   <!-- Tailwind CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .brand-font { font-family: 'Cinzel', serif; }
   </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col antialiased">
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-black">
 
   <!-- Universal Responsive Navbar -->
-  <header class="sticky top-0 z-50 bg-zinc-950/90 backdrop-blur border-b border-zinc-800">
+  <header class="sticky top-0 z-50 bg-zinc-950/95 backdrop-blur border-b border-zinc-800">
     <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <!-- Brand Logo & Title -->
-      <a href="/" class="flex items-center gap-3">
-        <img src="/logo.jpg" alt="Logo" class="h-9 w-9 rounded-full object-cover border border-amber-500/40">
-        <span class="brand-font text-lg sm:text-xl font-bold tracking-wider text-amber-400">MREEDO</span>
+      <!-- Brand Logo & Name -->
+      <a href="/" class="flex items-center gap-3 group">
+        <img src="/logo.jpg" alt="Logo" onerror="this.style.display='none'" class="h-9 w-9 rounded-full object-cover border border-amber-500/40 group-hover:border-amber-400 transition">
+        <div class="flex flex-col">
+          <span class="brand-font text-lg sm:text-xl font-bold tracking-wider text-amber-400 leading-none">MREEDO</span>
+          <span class="text-[9px] uppercase tracking-widest text-zinc-400">Atelier • India</span>
+        </div>
       </a>
 
-      <!-- Desktop & Mobile Right Actions -->
-      <div class="flex items-center gap-4">
+      <!-- Right Navigation Actions -->
+      <div class="flex items-center gap-3 sm:gap-4">
         
-        <!-- Cart Link (Dedicated Page) -->
-        <a href="/cart.html" class="relative p-2 text-zinc-300 hover:text-white transition">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          <span id="cart-counter" class="absolute -top-1 -right-1 bg-amber-500 text-black text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">0</span>
-        </a>
+        <!-- Cart Button with Counter -->
+        <button onclick="openModal('cart-modal')" class="relative p-2 text-zinc-300 hover:text-white transition" title="View Cart">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span id="cart-counter" class="absolute top-1 right-1 bg-amber-500 text-black text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">0</span>
+        </button>
 
-        <!-- Admin Option (Hidden by default, shown ONLY to admins) -->
-        <a id="admin-nav-btn" href="/admin.html" class="hidden text-xs bg-red-950/80 text-red-300 border border-red-800 px-2.5 py-1 rounded">Admin</a>
+        <!-- Admin Option (Strictly hidden for guests & regular users) -->
+        <a id="admin-nav-btn" href="/admin.html" class="hidden text-xs bg-red-950/80 text-red-300 border border-red-800 px-2.5 py-1 rounded hover:bg-red-900 transition">Admin Panel</a>
 
-        <!-- Guest View: Auth Buttons -->
+        <!-- Guest View: Sign In / Register -->
         <div id="guest-auth-actions" class="flex items-center gap-2">
-          <button onclick="openModal('auth-modal')" class="text-xs sm:text-sm px-3 py-1.5 rounded border border-zinc-700 hover:bg-zinc-800 transition">Sign In</button>
+          <button onclick="openAuthModal(false)" class="text-xs sm:text-sm px-3 py-1.5 rounded border border-zinc-700 hover:bg-zinc-800 text-zinc-200 transition">Sign In</button>
         </div>
 
-        <!-- User Profile Dropdown (Shown when logged in) -->
+        <!-- Logged In View: User Avatar Dropdown -->
         <div id="user-menu" class="hidden relative">
-          <button onclick="toggleDropdown('profile-dropdown')" class="flex items-center gap-2 text-sm border border-zinc-800 p-1.5 rounded-full hover:border-amber-500/50">
-            <span id="user-avatar-initial" class="h-7 w-7 bg-amber-500 text-black font-bold rounded-full flex items-center justify-center text-xs">U</span>
+          <button onclick="toggleDropdown('profile-dropdown')" class="flex items-center gap-2 text-sm border border-zinc-800 p-1 rounded-full hover:border-amber-500/50 transition">
+            <span id="user-avatar-initial" class="h-8 w-8 bg-amber-500 text-black font-bold rounded-full flex items-center justify-center text-xs">U</span>
           </button>
           
-          <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-52 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl py-2 z-50">
-            <p id="user-dropdown-name" class="px-4 py-1.5 text-xs text-zinc-400 font-semibold border-b border-zinc-800 truncate">Account</p>
-            <a href="/profile.html" class="block px-4 py-2 text-sm text-zinc-200 hover:bg-zinc-800">My Profile & Orders</a>
-            <button onclick="deleteAccount()" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-zinc-800">Delete Account Permanently</button>
-            <button onclick="logoutUser()" class="w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 border-t border-zinc-800">Sign Out</button>
+          <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl py-2 z-50">
+            <div class="px-4 py-2 border-b border-zinc-800">
+              <p id="user-dropdown-name" class="text-xs font-semibold text-white truncate">User Name</p>
+              <p id="user-dropdown-email" class="text-[11px] text-zinc-400 truncate">email@example.com</p>
+            </div>
+            <button onclick="openModal('cart-modal'); toggleDropdown('profile-dropdown');" class="w-full text-left px-4 py-2 text-xs text-zinc-300 hover:bg-zinc-800">My Orders & Cart</button>
+            <button onclick="deleteAccountPermanently()" class="w-full text-left px-4 py-2 text-xs text-red-400 hover:bg-zinc-800">Delete Account Permanently</button>
+            <button onclick="logoutUser()" class="w-full text-left px-4 py-2 text-xs text-zinc-300 hover:bg-zinc-800 border-t border-zinc-800">Sign Out</button>
           </div>
         </div>
 
@@ -77,40 +88,69 @@
     </div>
   </header>
 
-  <!-- Hero & Product Showcase (Fluid Grid for all displays) -->
-  <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+  <!-- Main Hero & Product Catalog -->
+  <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-zinc-800/80 pb-6">
       <div>
-        <h1 class="brand-font text-2xl sm:text-4xl font-bold tracking-tight text-white">Curated Luxury Streetwear</h1>
-        <p class="text-xs sm:text-sm text-zinc-400 mt-1">Democratizing Bespoke Luxury • 240+ GSM Fabrics</p>
+        <span class="text-xs font-semibold uppercase tracking-widest text-amber-500">Democratizing Bespoke Luxury</span>
+        <h1 class="brand-font text-2xl sm:text-4xl font-bold tracking-tight text-white mt-1">Curated Luxury Streetwear</h1>
+        <p class="text-xs sm:text-sm text-zinc-400 mt-1">Superior fiber density • 240+ GSM structural cuts • Zero middleman markups</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] bg-zinc-900 border border-zinc-800 text-zinc-300">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Nationwide Shipping Active
+        </span>
       </div>
     </div>
 
-    <!-- Product Grid -->
+    <!-- Product Grid (Responsive: 1 col mobile, 2 col tablet, 4 col desktop) -->
     <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Products render dynamically via JS -->
+      <!-- Dynamic Products Load Here -->
     </div>
   </main>
 
-  <!-- Auth Modal (Sign in / Sign up with Terms Checkbox) -->
+  <!-- Cart Modal / Checkout Drawer -->
+  <div id="cart-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 relative flex flex-col max-h-[85vh]">
+      <div class="flex items-center justify-between pb-4 border-b border-zinc-800">
+        <h3 class="text-lg font-bold text-white">Your Shopping Cart</h3>
+        <button onclick="closeModal('cart-modal')" class="text-zinc-400 hover:text-white p-1">✕</button>
+      </div>
+      
+      <div id="cart-items-list" class="flex-1 overflow-y-auto py-4 space-y-3">
+        <!-- Cart Items -->
+      </div>
+
+      <div class="pt-4 border-t border-zinc-800 space-y-3">
+        <div class="flex justify-between items-center text-sm">
+          <span class="text-zinc-400">Total Amount:</span>
+          <span id="cart-total-price" class="text-base font-bold text-amber-400">₹0</span>
+        </div>
+        <button onclick="checkoutOrder()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-semibold rounded-xl text-sm transition">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sign In & Sign Up Modal -->
   <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-zinc-800 rounded-xl max-w-md w-full p-6 relative">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-md w-full p-6 relative">
       <button onclick="closeModal('auth-modal')" class="absolute top-4 right-4 text-zinc-400 hover:text-white">✕</button>
       
-      <h3 id="auth-title" class="text-xl font-bold text-white mb-2">Sign In</h3>
-      <p class="text-xs text-zinc-400 mb-4">Access your orders, saved addresses, and tailored fitting.</p>
+      <h3 id="auth-title" class="text-xl font-bold text-white mb-1">Sign In</h3>
+      <p class="text-xs text-zinc-400 mb-5">Manage your orders and bespoke tailoring preferences.</p>
 
-      <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
-        <input type="text" id="auth-name" placeholder="Full Name" class="hidden w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded text-sm text-white focus:outline-none focus:border-amber-500">
-        <input type="email" id="auth-email" required placeholder="Email Address" class="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded text-sm text-white focus:outline-none focus:border-amber-500">
-        <input type="password" id="auth-password" required placeholder="Password" class="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded text-sm text-white focus:outline-none focus:border-amber-500">
+      <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-3.5">
+        <input type="text" id="auth-name" placeholder="Full Name" class="hidden w-full px-3.5 py-2.5 bg-zinc-800 border border-zinc-700 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+        <input type="email" id="auth-email" required placeholder="Email Address" class="w-full px-3.5 py-2.5 bg-zinc-800 border border-zinc-700 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+        <input type="password" id="auth-password" required placeholder="Password" class="w-full px-3.5 py-2.5 bg-zinc-800 border border-zinc-700 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
         
-        <div id="terms-box" class="hidden items-center gap-2">
+        <!-- Terms and Conditions Checkbox for Signup -->
+        <div id="terms-box" class="hidden items-center gap-2 pt-1">
           <input type="checkbox" id="terms-check" class="rounded border-zinc-700 bg-zinc-800 text-amber-500">
-          <label for="terms-check" class="text-xs text-zinc-400">I agree to the <a href="/terms.html" class="text-amber-400 underline">Terms & Conditions</a></label>
+          <label for="terms-check" class="text-xs text-zinc-400">I accept all <a href="#terms-modal" onclick="openModal('terms-modal')" class="text-amber-400 underline">Terms, Conditions & Policies</a></label>
         </div>
 
-        <button type="submit" id="auth-submit-btn" class="w-full py-2 bg-amber-500 text-black font-semibold rounded text-sm hover:bg-amber-400 transition">Sign In</button>
+        <button type="submit" id="auth-submit-btn" class="w-full py-2.5 bg-amber-500 text-black font-semibold rounded-xl text-sm hover:bg-amber-400 transition mt-2">Sign In</button>
       </form>
 
       <div class="mt-4 text-center">
@@ -119,23 +159,153 @@
     </div>
   </div>
 
-  <!-- Footer with Legal & Contact -->
+  <!-- Terms & Conditions Modal (Always accessible) -->
+  <div id="terms-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-xl w-full p-6 relative max-h-[80vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <h3 class="text-base font-bold text-white">Terms, Conditions & Account Privacy</h3>
+        <button onclick="closeModal('terms-modal')" class="text-zinc-400 hover:text-white">✕</button>
+      </div>
+      <div class="overflow-y-auto py-4 space-y-3 text-xs text-zinc-400 leading-relaxed">
+        <p><strong class="text-zinc-200">1. Order & Authenticity:</strong> All pieces sold on Mreedo Atelier are strictly verified, handcrafted limited-run garments.</p>
+        <p><strong class="text-zinc-200">2. Right to Permanent Erasure:</strong> In compliance with digital privacy standards, users hold complete control over their accounts. You may permanently purge your user profile, addresses, and transaction tokens instantly using the "Delete Account" button inside your profile menu.</p>
+        <p><strong class="text-zinc-200">3. Shipping & Exchanges:</strong> Size replacements are accommodated within 7 business days of delivery provided tags are preserved.</p>
+      </div>
+      <button onclick="closeModal('terms-modal')" class="w-full py-2 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-semibold rounded-xl transition mt-2">Close</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer class="mt-auto border-t border-zinc-800 bg-zinc-950 py-6">
     <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
       <p>© 2026 Dream Store India • Mreedo Atelier. All Rights Reserved.</p>
-      <div class="flex gap-4">
-        <a href="/terms.html" class="hover:text-white">Terms & Conditions</a>
-        <a href="/terms.html#privacy" class="hover:text-white">Privacy Policy</a>
+      <div class="flex items-center gap-4">
+        <button onclick="openModal('terms-modal')" class="hover:text-amber-400 transition">Terms & Privacy Policy</button>
+        <a href="mailto:support@mreedo.com" class="hover:text-amber-400 transition">Contact Concierge</a>
       </div>
     </div>
   </footer>
 
+  <!-- Application Engine -->
   <script>
-    // State
-    let isSignUp = false;
-    let currentUser = JSON.parse(localStorage.getItem('mreedo_user') || 'null');
+    // Product Catalog
+    const products = [
+      { id: 1, name: "Oversized Heavyweight Tee - Noir", price: 2499, fabric: "260 GSM French Terry Cotton", image: "/tee1.jpg" },
+      { id: 2, name: "Vintage Acid Wash Tee", price: 2799, fabric: "240 GSM Combed Cotton", image: "/tee2.jpg" },
+      { id: 3, name: "Atelier Signature Minimal Tee", price: 2299, fabric: "250 GSM Luxury Interlock", image: "/tee3.jpg" },
+      { id: 4, name: "Monochrome Street Silhouette Tee", price: 2999, fabric: "280 GSM Heavy Jersey", image: "/tee4.jpg" }
+    ];
 
-    // UI Initializer
+    let cart = JSON.parse(localStorage.getItem('mreedo_cart') || '[]');
+    let currentUser = JSON.parse(localStorage.getItem('mreedo_user') || 'null');
+    let isSignUp = false;
+
+    // Render Products to Grid
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      if (!grid) return;
+      grid.innerHTML = products.map(item => `
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden flex flex-col group hover:border-amber-500/50 transition duration-300">
+          <div class="aspect-square bg-zinc-800 overflow-hidden relative">
+            <img src="${item.image}" alt="${item.name}" onerror="this.src='/logo.jpg'" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-black/80 backdrop-blur text-[10px] text-zinc-300 font-medium px-2.5 py-1 rounded-full border border-zinc-700">${item.fabric}</span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+            <div>
+              <h3 class="font-semibold text-sm text-zinc-100">${item.name}</h3>
+              <p class="text-amber-400 font-bold text-base mt-1">₹${item.price.toLocaleString('en-IN')}</p>
+            </div>
+            <button onclick="addToCart(${item.id})" class="w-full py-2.5 bg-zinc-800 hover:bg-amber-500 hover:text-black text-xs font-semibold rounded-xl transition duration-200">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Cart Handlers
+    function updateCartUI() {
+      const counter = document.getElementById('cart-counter');
+      if (counter) counter.innerText = cart.length;
+
+      const list = document.getElementById('cart-items-list');
+      const totalEl = document.getElementById('cart-total-price');
+      if (!list || !totalEl) return;
+
+      if (cart.length === 0) {
+        list.innerHTML = '<p class="text-center text-zinc-400 text-xs py-8">Your shopping bag is empty.</p>';
+        totalEl.innerText = '₹0';
+        return;
+      }
+
+      let total = 0;
+      list.innerHTML = cart.map((item, index) => {
+        total += item.price;
+        return `
+          <div class="flex items-center justify-between gap-3 bg-zinc-800/60 p-3 rounded-xl border border-zinc-700/50">
+            <div class="flex items-center gap-3 truncate">
+              <img src="${item.image}" alt="${item.name}" onerror="this.src='/logo.jpg'" class="h-10 w-10 rounded-lg object-cover">
+              <div class="truncate">
+                <p class="text-xs font-medium text-white truncate">${item.name}</p>
+                <p class="text-[11px] text-amber-400 font-semibold">₹${item.price.toLocaleString('en-IN')}</p>
+              </div>
+            </div>
+            <button onclick="removeFromCart(${index})" class="text-zinc-400 hover:text-red-400 text-xs px-2">Remove</button>
+          </div>
+        `;
+      }).join('');
+      totalEl.innerText = `₹${total.toLocaleString('en-IN')}`;
+    }
+
+    function addToCart(id) {
+      const prod = products.find(p => p.id === id);
+      if (prod) {
+        cart.push(prod);
+        localStorage.setItem('mreedo_cart', JSON.stringify(cart));
+        updateCartUI();
+        openModal('cart-modal');
+      }
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('mreedo_cart', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    function checkoutOrder() {
+      if (cart.length === 0) return alert('Your cart is empty.');
+      if (!currentUser) {
+        closeModal('cart-modal');
+        openAuthModal(false);
+        alert('Please sign in or create an account to complete checkout.');
+        return;
+      }
+      alert('Order initiated successfully! Our concierge team will reach out via email with dispatch confirmation.');
+      cart = [];
+      localStorage.removeItem('mreedo_cart');
+      updateCartUI();
+      closeModal('cart-modal');
+    }
+
+    // Modal & History Navigation (Back button closes modals)
+    function openModal(id) {
+      window.history.pushState({ modalId: id }, '', '#' + id);
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+      if (window.location.hash) {
+        history.replaceState(null, '', window.location.pathname);
+      }
+    }
+
+    window.addEventListener('popstate', () => {
+      document.querySelectorAll('.fixed:not(.hidden)').forEach(el => el.classList.add('hidden'));
+    });
+
+    // Auth & Navigation Rendering
     function renderUserNav() {
       const guestActions = document.getElementById('guest-auth-actions');
       const userMenu = document.getElementById('user-menu');
@@ -145,9 +315,10 @@
         guestActions.classList.add('hidden');
         userMenu.classList.remove('hidden');
         document.getElementById('user-avatar-initial').innerText = (currentUser.name || currentUser.email)[0].toUpperCase();
-        document.getElementById('user-dropdown-name').innerText = currentUser.email;
+        document.getElementById('user-dropdown-name').innerText = currentUser.name || 'Member';
+        document.getElementById('user-dropdown-email').innerText = currentUser.email;
 
-        // Admin check: Only show if user has admin role
+        // Admin strictly hidden unless role is explicitly admin
         if (currentUser.role === 'admin') {
           adminBtn.classList.remove('hidden');
         } else {
@@ -164,23 +335,18 @@
       document.getElementById(id).classList.toggle('hidden');
     }
 
-    function openModal(id) {
-      window.history.pushState({ modalOpen: true }, '', '#' + id);
-      document.getElementById(id).classList.remove('hidden');
+    function openAuthModal(signupMode) {
+      isSignUp = signupMode;
+      updateAuthUI();
+      openModal('auth-modal');
     }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-      if (window.location.hash) history.back();
-    }
-
-    // Handle Browser Back Button for Popups
-    window.addEventListener('popstate', () => {
-      document.querySelectorAll('.fixed:not(.hidden)').forEach(el => el.classList.add('hidden'));
-    });
 
     function toggleAuthMode() {
       isSignUp = !isSignUp;
+      updateAuthUI();
+    }
+
+    function updateAuthUI() {
       document.getElementById('auth-title').innerText = isSignUp ? 'Create Account' : 'Sign In';
       document.getElementById('auth-submit-btn').innerText = isSignUp ? 'Sign Up' : 'Sign In';
       document.getElementById('auth-name').classList.toggle('hidden', !isSignUp);
@@ -191,18 +357,22 @@
         : "Don't have an account? Sign Up";
     }
 
-    async function handleAuth(e) {
+    function handleAuth(e) {
       e.preventDefault();
       const email = document.getElementById('auth-email').value;
-      const name = document.getElementById('auth-name').value || 'Customer';
+      const name = document.getElementById('auth-name').value || 'Member';
 
       if (isSignUp && !document.getElementById('terms-check').checked) {
-        alert('Please agree to the Terms & Conditions.');
+        alert('Please review and accept the Terms & Conditions.');
         return;
       }
 
-      // Save user session
-      currentUser = { email, name, role: email.includes('admin') ? 'admin' : 'customer' };
+      currentUser = {
+        name: name,
+        email: email,
+        role: email.toLowerCase().includes('admin') ? 'admin' : 'customer'
+      };
+
       localStorage.setItem('mreedo_user', JSON.stringify(currentUser));
       closeModal('auth-modal');
       renderUserNav();
@@ -215,154 +385,21 @@
       window.location.reload();
     }
 
-    function deleteAccount() {
-      if (confirm('Warning: Are you sure you want to permanently delete your account and all order records? This cannot be undone.')) {
+    function deleteAccountPermanently() {
+      if (confirm('CRITICAL ACTION: Are you sure you want to permanently delete your account, saved profile, and cart data? This action cannot be reversed.')) {
         localStorage.removeItem('mreedo_user');
         localStorage.removeItem('mreedo_cart');
-        alert('Your account has been deleted.');
+        currentUser = null;
+        cart = [];
+        alert('Your account and personal session data have been permanently erased.');
         window.location.reload();
       }
     }
 
-    function deleteAccount() {
-      if (confirm('Warning: Are you sure you want to permanently delete your account and all order records? This cannot be undone.')) {
-        localStorage.removeItem('mreedo_user');
-        localStorage.removeItem('mreedo_cart');
-        alert('Your account has been deleted.');
-        window.location.reload();
-      }
-    }
-
-    // --- Yahan se paste karein ---
-    const products = [
-      { id: 1, name: "Oversized Heavyweight Tee - Noir", price: 2499, fabric: "260 GSM French Terry Cotton", image: "/tee1.jpg" },
-      { id: 2, name: "Vintage Acid Wash Tee", price: 2799, fabric: "240 GSM Combed Cotton", image: "/tee2.jpg" },
-      { id: 3, name: "Atelier Signature Minimal Tee", price: 2299, fabric: "250 GSM Luxury Interlock", image: "/tee3.jpg" },
-      { id: 4, name: "Monochrome Street Silhouette Tee", price: 2999, fabric: "280 GSM Heavy Jersey", image: "/tee4.jpg" }
-    ];
-
-    function renderProducts() {
-      const grid = document.getElementById('products-grid');
-      if (!grid) return;
-      grid.innerHTML = products.map(item => `
-        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col group hover:border-amber-500/40 transition">
-          <div class="aspect-square bg-zinc-800 overflow-hidden relative">
-            <img src="${item.image}" alt="${item.name}" onerror="this.src='/logo.jpg'" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-            <span class="absolute top-2 left-2 bg-black/70 backdrop-blur text-[10px] text-zinc-300 px-2 py-0.5 rounded border border-zinc-700">${item.fabric}</span>
-          </div>
-          <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
-            <div>
-              <h3 class="font-semibold text-sm text-zinc-100">${item.name}</h3>
-              <p class="text-amber-400 font-bold text-base mt-1">₹${item.price.toLocaleString('en-IN')}</p>
-            </div>
-            <button onclick="addToCart(${item.id})" class="w-full py-2 bg-zinc-800 hover:bg-amber-500 hover:text-black text-xs font-semibold rounded transition">
-              Add to Cart
-            </button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    let cart = JSON.parse(localStorage.getItem('mreedo_cart') || '[]');
-    function updateCartCounter() {
-      const counter = document.getElementById('cart-counter');
-      if (counter) counter.innerText = cart.length;
-    }
-    function addToCart(productId) {
-      const item = products.find(p => p.id === productId);
-      if (item) {
-        cart.push(item);
-        localStorage.setItem('mreedo_cart', JSON.stringify(cart));
-        updateCartCounter();
-        alert(`${item.name} added to cart!`);
-      }
-    }
-
+    // Init
     renderProducts();
-    updateCartCounter();
-    // --- Yahan tak ---
-
+    updateCartUI();
     renderUserNav();
-  </script>
-</body>
-</html>
-    renderUserNav();// Products Data
-    const products = [
-      {
-        id: 1,
-        name: "Oversized Heavyweight Tee - Noir",
-        price: 2499,
-        fabric: "260 GSM French Terry Cotton",
-        image: "/tee1.jpg"
-      },
-      {
-        id: 2,
-        name: "Vintage Acid Wash Tee",
-        price: 2799,
-        fabric: "240 GSM Combed Cotton",
-        image: "/tee2.jpg"
-      },
-      {
-        id: 3,
-        name: "Atelier Signature Minimal Tee",
-        price: 2299,
-        fabric: "250 GSM Luxury Interlock",
-        image: "/tee3.jpg"
-      },
-      {
-        id: 4,
-        name: "Monochrome Street Silhouette Tee",
-        price: 2999,
-        fabric: "280 GSM Heavy Jersey",
-        image: "/tee4.jpg"
-      }
-    ];
-
-    // Render Products to Grid
-    function renderProducts() {
-      const grid = document.getElementById('products-grid');
-      if (!grid) return;
-
-      grid.innerHTML = products.map(item => `
-        <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden flex flex-col group hover:border-amber-500/40 transition">
-          <div class="aspect-square bg-zinc-800 overflow-hidden relative">
-            <img src="${item.image}" alt="${item.name}" onerror="this.src='/logo.jpg'" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-            <span class="absolute top-2 left-2 bg-black/70 backdrop-blur text-[10px] text-zinc-300 px-2 py-0.5 rounded border border-zinc-700">${item.fabric}</span>
-          </div>
-          <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
-            <div>
-              <h3 class="font-semibold text-sm text-zinc-100">${item.name}</h3>
-              <p class="text-amber-400 font-bold text-base mt-1">₹${item.price.toLocaleString('en-IN')}</p>
-            </div>
-            <button onclick="addToCart(${item.id})" class="w-full py-2 bg-zinc-800 hover:bg-amber-500 hover:text-black text-xs font-semibold rounded transition">
-              Add to Cart
-            </button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    // Cart Management
-    let cart = JSON.parse(localStorage.getItem('mreedo_cart') || '[]');
-
-    function updateCartCounter() {
-      const counter = document.getElementById('cart-counter');
-      if (counter) counter.innerText = cart.length;
-    }
-
-    function addToCart(productId) {
-      const item = products.find(p => p.id === productId);
-      if (item) {
-        cart.push(item);
-        localStorage.setItem('mreedo_cart', JSON.stringify(cart));
-        updateCartCounter();
-        alert(`${item.name} added to cart!`);
-      }
-    }
-
-    // Initial load
-    renderProducts();
-    updateCartCounter();
   </script>
 </body>
 </html>
