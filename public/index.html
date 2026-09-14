@@ -35,9 +35,16 @@
 </head>
 <body class="bg-white text-neutral-900 min-h-screen flex flex-col antialiased selection:bg-black selection:text-white">
 
-  <!-- Top Ribbon Announcement -->
-  <div class="bg-neutral-900 text-white text-[11px] font-medium py-2 px-4 flex justify-between items-center tracking-wider uppercase">
-    <span class="mx-auto">Dream Store India • Official House of MREEDO Apparel • All India Delivery</span>
+  <!-- MODULE 6: Central Deal Aggregator & Flash Drop Ticker -->
+  <div class="bg-neutral-900 text-white text-[11px] font-medium py-2 px-4 flex flex-wrap justify-between items-center tracking-wider uppercase gap-2">
+    <div class="flex items-center gap-2 mx-auto sm:mx-0">
+      <span class="bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded animate-pulse">FLASH DROP</span>
+      <span>Mid-Season Luxury Sale Live • Flat 10% Off via code <strong>DREAM10</strong></span>
+    </div>
+    <div class="flex items-center gap-3 mx-auto sm:mx-0 text-neutral-400">
+      <span id="flash-countdown" class="text-amber-400 font-bold tracking-widest">Ends in 05h : 42m : 18s</span>
+      <button onclick="openGiftCardModal()" class="text-white hover:underline text-[10px] hidden md:inline">Gift Cards & Vouchers</button>
+    </div>
   </div>
 
   <!-- Main Navigation Bar -->
@@ -50,7 +57,7 @@
         <span class="text-[9px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">House of Brands • MREEDO</span>
       </a>
 
-      <!-- Intelligent Search Bar with Dropdown -->
+      <!-- Search Bar -->
       <div class="hidden md:flex items-center flex-1 max-w-md mx-6 relative">
         <input 
           type="text" 
@@ -71,20 +78,26 @@
       <!-- Action Utilities -->
       <div class="flex items-center gap-4 sm:gap-6 flex-shrink-0">
         
+        <!-- MODULE 6: Gift Card Wallet Direct Link -->
+        <button onclick="openGiftCardModal()" class="relative p-1 text-black hover:opacity-75 transition hidden lg:flex items-center gap-1.5" title="Gift Cards & Credits">
+          <svg class="w-5 h-5 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+          <span class="text-xs uppercase font-semibold">Gift Cards</span>
+        </button>
+
         <!-- Dream Coins Loyalty Balance -->
         <div class="hidden lg:flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200 rounded-full text-xs font-semibold text-amber-900" title="Dream Coins Loyalty Balance">
           <span class="h-4 w-4 rounded-full bg-amber-400 text-black flex items-center justify-center font-bold text-[10px]">🪙</span>
           <span id="nav-coins-balance">50 Coins</span>
         </div>
 
-        <!-- MODULE 5: My Orders Direct Nav Button -->
+        <!-- Orders -->
         <button onclick="openOrdersModal()" class="relative p-1 text-black hover:opacity-75 transition hidden sm:flex items-center gap-1.5" title="My Orders & Tracking">
           <svg class="w-5 h-5 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
           <span class="text-xs uppercase font-semibold">Orders</span>
           <span id="orders-badge" class="bg-neutral-800 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">0</span>
         </button>
 
-        <!-- Comparison Matrix Launch -->
+        <!-- Compare -->
         <button onclick="openCompareModal()" class="relative p-1 text-black hover:opacity-75 transition hidden sm:flex items-center gap-1" title="Compare Products">
           <svg class="w-5 h-5 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
           <span class="text-xs uppercase font-semibold">Compare</span>
@@ -121,7 +134,12 @@
                 <span class="text-neutral-500 font-semibold">Dream Coins:</span>
                 <span class="font-bold text-amber-700">🪙 <span id="dropdown-coins">50</span></span>
               </div>
+              <div class="mt-1 flex items-center justify-between text-[10px] bg-neutral-50 p-1.5 rounded">
+                <span class="text-neutral-500 font-semibold">Gift Card Wallet:</span>
+                <span class="font-bold text-emerald-700">₹<span id="dropdown-wallet">0</span></span>
+              </div>
             </div>
+            <button onclick="openGiftCardModal()" class="w-full text-left px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100">Gift Card Claim & Wallet</button>
             <button onclick="openOrdersModal()" class="w-full text-left px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100">My Orders & Live Dispatch</button>
             <button onclick="openAddressModal()" class="w-full text-left px-4 py-2 text-xs text-neutral-700 hover:bg-neutral-100">Manage Addresses (Home/Office)</button>
             <button onclick="deleteAccountPermanent()" class="w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50">Permanent Account Erasure</button>
@@ -139,7 +157,9 @@
           <button onclick="setCategory('TSHIRT')" id="tab-tshirt" class="text-neutral-500 hover:text-black transition">MREEDO T-Shirts</button>
           <button onclick="setCategory('SHIRT')" id="tab-shirt" class="text-neutral-500 hover:text-black transition">MREEDO Shirts</button>
         </div>
-        <span class="text-[11px] text-neutral-400 font-normal hidden sm:inline">Official Brand Launchpad</span>
+        <button onclick="openCouponsDirectory()" class="text-[11px] text-amber-700 font-bold hover:underline flex items-center gap-1">
+          <span>🏷 View All Active Promo Codes</span>
+        </button>
       </div>
     </div>
   </header>
@@ -203,7 +223,79 @@
     <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12"></div>
   </main>
 
-  <!-- MODULE 5: GRANULAR ORDER HISTORY & LIVE DISPATCH TRACKER MODAL -->
+  <!-- MODULE 6: GIFT CARD ISSUANCE & CLAIM TERMINAL MODAL -->
+  <div id="giftcard-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white border border-neutral-200 rounded-2xl max-w-md w-full p-6 relative flex flex-col">
+      <button onclick="closeGiftCardModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
+      <span class="text-[10px] uppercase tracking-widest font-bold text-neutral-400">Gift Card & Value Addons</span>
+      <h3 class="text-base font-bold text-black mb-3">Dream Store India Gift Voucher Terminal</h3>
+
+      <div class="p-4 bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-xl text-white space-y-2 mb-4">
+        <div class="flex justify-between items-center text-xs">
+          <span class="font-bold company-font tracking-widest">MREEDO LUXE PASS</span>
+          <span class="text-emerald-400 font-bold">100% Redeemable</span>
+        </div>
+        <p class="text-[10px] text-neutral-400">Your Usable Gift Card Wallet Balance:</p>
+        <p class="text-2xl font-bold text-amber-400">₹<span id="wallet-balance-card">0</span></p>
+      </div>
+
+      <!-- Claim Code Form -->
+      <div class="space-y-2 mb-4">
+        <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Redeem Electronic Gift Voucher</label>
+        <div class="flex gap-2">
+          <input type="text" id="gift-voucher-input" placeholder="Enter 16-Digit Code (e.g. MREEDO-2026-GIFT)" class="flex-1 p-2.5 border border-neutral-300 rounded text-xs uppercase">
+          <button onclick="redeemGiftCard()" class="px-4 py-2.5 bg-black text-white text-xs font-bold rounded">Redeem</button>
+        </div>
+        <p class="text-[10px] text-neutral-500">Demo Code: <strong>MREEDO-2026-GIFT</strong> (+₹1,000 instant credit)</p>
+      </div>
+
+      <div class="border-t border-neutral-200 pt-3">
+        <p class="text-xs font-bold text-black mb-2">Buy a New Gift Card for Family & Friends</p>
+        <div class="grid grid-cols-3 gap-2">
+          <button onclick="buyGiftVoucher(1000)" class="py-2 border border-neutral-300 rounded text-xs font-bold hover:border-black">₹1,000</button>
+          <button onclick="buyGiftVoucher(2500)" class="py-2 border border-neutral-300 rounded text-xs font-bold hover:border-black">₹2,500</button>
+          <button onclick="buyGiftVoucher(5000)" class="py-2 border border-neutral-300 rounded text-xs font-bold hover:border-black">₹5,000</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 6: CONTEXTUAL COUPONS DIRECTORY MODAL -->
+  <div id="coupons-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white border border-neutral-200 rounded-2xl max-w-md w-full p-6 relative flex flex-col">
+      <button onclick="closeCouponsDirectory()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
+      <h3 class="text-base font-bold text-black mb-1">Active Store Promotions & Coupons</h3>
+      <p class="text-xs text-neutral-500 mb-4">Click any coupon to copy and apply directly at checkout.</p>
+      
+      <div class="space-y-3">
+        <div class="p-3 border border-dashed border-amber-500 bg-amber-50/50 rounded-xl flex justify-between items-center">
+          <div>
+            <span class="font-bold text-black text-xs">DREAM10</span>
+            <p class="text-[10px] text-neutral-600">Flat 10% Off on all orders over ₹2,000</p>
+          </div>
+          <button onclick="quickApplyCoupon('DREAM10')" class="px-3 py-1 bg-black text-white text-[10px] font-bold rounded">Apply Code</button>
+        </div>
+
+        <div class="p-3 border border-dashed border-emerald-500 bg-emerald-50/50 rounded-xl flex justify-between items-center">
+          <div>
+            <span class="font-bold text-black text-xs">MREEDO500</span>
+            <p class="text-[10px] text-neutral-600">Flat ₹500 Off on 240+ GSM Heavyweight orders</p>
+          </div>
+          <button onclick="quickApplyCoupon('MREEDO500')" class="px-3 py-1 bg-black text-white text-[10px] font-bold rounded">Apply Code</button>
+        </div>
+
+        <div class="p-3 border border-dashed border-neutral-400 bg-neutral-50 rounded-xl flex justify-between items-center">
+          <div>
+            <span class="font-bold text-black text-xs">SUPER20</span>
+            <p class="text-[10px] text-neutral-600">20% Off on Cart value exceeding ₹5,000</p>
+          </div>
+          <button onclick="quickApplyCoupon('SUPER20')" class="px-3 py-1 bg-black text-white text-[10px] font-bold rounded">Apply Code</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 5: ORDERS MODAL -->
   <div id="orders-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white border border-neutral-200 rounded-2xl max-w-2xl w-full p-6 relative max-h-[90vh] flex flex-col">
       <button onclick="closeOrdersModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
@@ -211,20 +303,15 @@
         <span class="text-[10px] uppercase tracking-widest font-bold text-neutral-400">Post-Order Operations</span>
       </div>
       <h3 class="text-base font-bold text-black mb-4">My Orders & Live Dispatch Status</h3>
-      
-      <div id="orders-list-container" class="overflow-y-auto space-y-4 flex-1 pr-1 text-xs">
-        <!-- Dynamic Orders loaded here -->
-      </div>
+      <div id="orders-list-container" class="overflow-y-auto space-y-4 flex-1 pr-1 text-xs"></div>
     </div>
   </div>
 
-  <!-- MODULE 5: TAX INVOICE PRINTABLE CONTAINER -->
+  <!-- MODULE 5: INVOICE MODAL -->
   <div id="invoice-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white border border-neutral-200 rounded-2xl max-w-xl w-full p-6 relative max-h-[90vh] flex flex-col">
       <button onclick="closeInvoiceModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
-      <div id="printable-invoice" class="p-6 bg-white border border-neutral-200 rounded-xl space-y-4 text-xs">
-        <!-- Tax Invoice populated via JS -->
-      </div>
+      <div id="printable-invoice" class="p-6 bg-white border border-neutral-200 rounded-xl space-y-4 text-xs"></div>
       <div class="mt-4 flex gap-3">
         <button onclick="window.print()" class="flex-1 py-2.5 bg-black text-white text-xs uppercase tracking-widest font-bold rounded-lg">Print / Download PDF</button>
         <button onclick="closeInvoiceModal()" class="px-4 py-2.5 bg-neutral-100 text-neutral-700 text-xs font-semibold rounded-lg">Close</button>
@@ -303,7 +390,7 @@
     </div>
   </div>
 
-  <!-- MODULE 4: PAYMENT PROCESSING & FINTECH GATEWAY MODAL -->
+  <!-- MODULE 4 & 6: PAYMENT & FINTECH GATEWAY MODAL -->
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white border border-neutral-200 rounded-2xl max-w-lg w-full p-6 relative max-h-[90vh] flex flex-col">
       <button onclick="closePaymentGateway()" class="absolute top-4 right-4 text-neutral-500 hover:text-black">✕</button>
@@ -327,21 +414,42 @@
             <span>Dream Coins Loyalty Applied:</span>
             <span id="coins-discount-val">-₹0</span>
           </div>
+          <div id="wallet-discount-row" class="hidden justify-between text-emerald-700 font-semibold">
+            <span>Gift Card Wallet Credit Applied:</span>
+            <span id="wallet-discount-val">-₹0</span>
+          </div>
           <div class="flex justify-between text-sm font-bold text-black border-t border-neutral-200 pt-1.5">
             <span>Net Payable Amount:</span>
             <span id="gateway-final-price" class="text-base text-amber-600">₹0</span>
           </div>
         </div>
 
+        <!-- Coupon Application Section -->
         <div class="p-3 border border-neutral-200 rounded-xl space-y-2">
-          <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Contextual Coupon Code</label>
+          <div class="flex justify-between items-center">
+            <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Contextual Coupon Code</label>
+            <button onclick="openCouponsDirectory()" class="text-[10px] text-amber-700 font-bold hover:underline">Browse Codes</button>
+          </div>
           <div class="flex gap-2">
             <input type="text" id="coupon-input" placeholder="e.g. DREAM10 or MREEDO500" class="flex-1 p-2 border border-neutral-300 rounded text-xs uppercase">
             <button onclick="applyCoupon()" class="px-3 py-1.5 bg-neutral-900 text-white font-bold rounded text-xs">Apply</button>
           </div>
-          <p id="coupon-status-msg" class="text-[10px] text-neutral-500">Try code <strong>DREAM10</strong> for 10% instant discount.</p>
+          <p id="coupon-status-msg" class="text-[10px] text-neutral-500">Apply verified promo codes to recalculate bill.</p>
         </div>
 
+        <!-- Gift Card Wallet Toggle -->
+        <div class="p-3 border border-emerald-200 bg-emerald-50/40 rounded-xl flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">💳</span>
+            <div>
+              <p class="font-bold text-neutral-800">Use Gift Card Wallet Balance</p>
+              <p class="text-[10px] text-neutral-500">Available Credit: ₹<span id="checkout-wallet-balance">0</span></p>
+            </div>
+          </div>
+          <input type="checkbox" id="use-wallet-checkbox" onchange="toggleWalletDiscount()" class="h-4 w-4 rounded text-emerald-600">
+        </div>
+
+        <!-- Coins Toggle -->
         <div class="p-3 border border-amber-200 bg-amber-50/50 rounded-xl flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="text-base">🪙</span>
@@ -353,6 +461,7 @@
           <input type="checkbox" id="use-coins-checkbox" onchange="toggleCoinDiscount()" class="h-4 w-4 rounded text-amber-500">
         </div>
 
+        <!-- Payment Methods -->
         <div class="space-y-2">
           <label class="font-bold text-neutral-700 uppercase tracking-wider text-[10px]">Select Payment Architecture</label>
           
@@ -483,7 +592,7 @@
     </div>
   </footer>
 
-  <!-- Application Engine: Modules 1, 2, 3, 4, 5 Fully Integrated -->
+  <!-- Application Engine: Modules 1 to 6 Complete Engine -->
   <script>
     const products = [
       { id: 1, brand: "MREEDO", category: "TSHIRT", name: "MREEDO Noir Heavyweight Boxy Tee", gsm: "260 GSM", gsmNum: 260, price: 2499, originalPrice: 3499, rating: 4.9, stock: 4, launchDate: "2026-08-10", image: "/tee1.jpg", fit: "Boxy Cut", weave: "French Terry Cotton", availableSizes: ['S', 'M', 'L', 'XL'] },
@@ -510,11 +619,14 @@
     let addresses = JSON.parse(localStorage.getItem('mreedo_addresses') || '[]');
     let orders = JSON.parse(localStorage.getItem('mreedo_orders') || '[]');
 
+    // MODULE 4 & 6: Fintech & Value Addon State
     let userCoins = parseInt(localStorage.getItem('mreedo_coins') || '50');
+    let userWallet = parseInt(localStorage.getItem('mreedo_wallet') || '0');
     let activeCheckoutSource = 'CART';
     let currentOrderBaseTotal = 0;
     let appliedCouponDiscount = 0;
     let appliedCoinsDiscount = 0;
+    let appliedWalletDiscount = 0;
 
     // --- MODULE 2: CATALOG RENDERING ---
     function renderCatalog() {
@@ -793,8 +905,7 @@
           <div class="flex-1 truncate">
             <h4 class="text-xs font-semibold text-black truncate">${item.name}</h4>
             <div class="flex items-center gap-1.5 mt-0.5">
-              <span class="text-[11px] font-bold text-black">₹${item.price.toLocaleString('en-IN')}</span
->
+              <span class="text-[11px] font-bold text-black">₹${item.price.toLocaleString('en-IN')}</span>
               <span class="text-[10px] text-emerald-600 font-bold">Save ₹${item.originalPrice - item.price}</span>
             </div>
             ${item.stock <= 3 ? `<p class="text-[9px] text-amber-600 font-semibold mt-0.5">Low Stock Alert (${item.stock} left)</p>` : ''}
@@ -843,7 +954,79 @@
       `).join('');
     }
 
-    // --- MODULE 4: PAYMENT ENGINE ---
+    // --- MODULE 6: CAMPAIGNS, GIFT CARDS & VALUE ADDONS ---
+    function openGiftCardModal() {
+      document.getElementById('wallet-balance-card').innerText = userWallet;
+      document.getElementById('giftcard-modal').classList.remove('hidden');
+    }
+
+    function closeGiftCardModal() {
+      document.getElementById('giftcard-modal').classList.add('hidden');
+    }
+
+    function redeemGiftCard() {
+      const code = document.getElementById('gift-voucher-input').value.trim().toUpperCase();
+      if (code === 'MREEDO-2026-GIFT') {
+        userWallet += 1000;
+        localStorage.setItem('mreedo_wallet', userWallet);
+        updateWalletDisplay();
+        alert('Success! ₹1,000 Gift Voucher added to your personal wallet.');
+        document.getElementById('gift-voucher-input').value = '';
+        closeGiftCardModal();
+      } else {
+        alert('Invalid or already redeemed Gift Voucher code.');
+      }
+    }
+
+    function buyGiftVoucher(amount) {
+      if (!currentUser) {
+        alert('Please sign in to purchase electronic gift vouchers.');
+        openAuthModal(false);
+        return;
+      }
+      userWallet += amount;
+      localStorage.setItem('mreedo_wallet', userWallet);
+      updateWalletDisplay();
+      alert(`Gift Voucher of ₹${amount} issued successfully! Amount credited to your wallet.`);
+      closeGiftCardModal();
+    }
+
+    function openCouponsDirectory() {
+      document.getElementById('coupons-modal').classList.remove('hidden');
+    }
+
+    function closeCouponsDirectory() {
+      document.getElementById('coupons-modal').classList.add('hidden');
+    }
+
+    function quickApplyCoupon(code) {
+      document.getElementById('coupon-input').value = code;
+      closeCouponsDirectory();
+      if (!document.getElementById('payment-modal').classList.contains('hidden')) {
+        applyCoupon();
+      } else {
+        alert(`Coupon ${code} selected. It will be applied at checkout.`);
+      }
+    }
+
+    // Flash countdown timer simulation
+    let countdownHours = 5, countdownMins = 42, countdownSecs = 18;
+    setInterval(() => {
+      if (countdownSecs > 0) countdownSecs--;
+      else {
+        countdownSecs = 59;
+        if (countdownMins > 0) countdownMins--;
+        else {
+          countdownMins = 59;
+          if (countdownHours > 0) countdownHours--;
+        }
+      }
+      const pad = (n) => String(n).padStart(2, '0');
+      const el = document.getElementById('flash-countdown');
+      if (el) el.innerText = `Ends in ${pad(countdownHours)}h : ${pad(countdownMins)}m : ${pad(countdownSecs)}s`;
+    }, 1000);
+
+    // --- MODULE 4 & 6: PAYMENT ENGINE ---
     function openPaymentGateway(source) {
       activeCheckoutSource = source;
 
@@ -870,9 +1053,11 @@
 
       appliedCouponDiscount = 0;
       appliedCoinsDiscount = 0;
+      appliedWalletDiscount = 0;
       document.getElementById('use-coins-checkbox').checked = false;
+      document.getElementById('use-wallet-checkbox').checked = false;
       document.getElementById('coupon-input').value = '';
-      document.getElementById('coupon-status-msg').innerText = 'Try code DREAM10 for 10% instant discount.';
+      document.getElementById('coupon-status-msg').innerText = 'Apply verified promo codes to recalculate bill.';
 
       recalculatePaymentBreakdown();
       document.getElementById('payment-modal').classList.remove('hidden');
@@ -889,6 +1074,8 @@
       const couponVal = document.getElementById('coupon-discount-val');
       const coinsRow = document.getElementById('coins-discount-row');
       const coinsVal = document.getElementById('coins-discount-val');
+      const walletRow = document.getElementById('wallet-discount-row');
+      const walletVal = document.getElementById('wallet-discount-val');
       const emiPreview = document.getElementById('emi-calc-preview');
 
       baseEl.innerText = `₹${currentOrderBaseTotal.toLocaleString('en-IN')}`;
@@ -911,13 +1098,23 @@
         coinsRow.classList.remove('flex');
       }
 
-      const netPayable = Math.max(0, currentOrderBaseTotal - appliedCouponDiscount - appliedCoinsDiscount);
+      if (appliedWalletDiscount > 0) {
+        walletRow.classList.remove('hidden');
+        walletRow.classList.add('flex');
+        walletVal.innerText = `-₹${appliedWalletDiscount.toLocaleString('en-IN')}`;
+      } else {
+        walletRow.classList.add('hidden');
+        walletRow.classList.remove('flex');
+      }
+
+      const netPayable = Math.max(0, currentOrderBaseTotal - appliedCouponDiscount - appliedCoinsDiscount - appliedWalletDiscount);
       finalEl.innerText = `₹${netPayable.toLocaleString('en-IN')}`;
 
       const monthlyEmi = Math.round(netPayable / 3);
       emiPreview.innerText = `Starting from ₹${monthlyEmi.toLocaleString('en-IN')}/month on 3-month tenure.`;
 
       document.getElementById('checkout-coins-balance').innerText = userCoins;
+      document.getElementById('checkout-wallet-balance').innerText = userWallet;
     }
 
     function applyCoupon() {
@@ -932,6 +1129,10 @@
         appliedCouponDiscount = 500;
         statusMsg.innerText = '✓ Code MREEDO500 applied: Flat ₹500 saved!';
         statusMsg.className = 'text-[10px] text-emerald-600 font-bold';
+      } else if (code === 'SUPER20') {
+        appliedCouponDiscount = Math.round(currentOrderBaseTotal * 0.20);
+        statusMsg.innerText = '✓ Code SUPER20 applied: 20% Super Discount saved!';
+        statusMsg.className = 'text-[10px] text-emerald-600 font-bold';
       } else {
         appliedCouponDiscount = 0;
         statusMsg.innerText = '✕ Invalid promotional coupon code.';
@@ -942,21 +1143,32 @@
 
     function toggleCoinDiscount() {
       const isChecked = document.getElementById('use-coins-checkbox').checked;
-      appliedCoinsDiscount = isChecked ? Math.min(userCoins, currentOrderBaseTotal - appliedCouponDiscount) : 0;
+      const balanceAfterCoupon = currentOrderBaseTotal - appliedCouponDiscount - appliedWalletDiscount;
+      appliedCoinsDiscount = isChecked ? Math.min(userCoins, Math.max(0, balanceAfterCoupon)) : 0;
       recalculatePaymentBreakdown();
     }
 
-    // --- MODULE 5: POST-ORDER LIFECYCLE & FULFILMENT ENGINE ---
+    function toggleWalletDiscount() {
+      const isChecked = document.getElementById('use-wallet-checkbox').checked;
+      const balanceAfterCoupon = currentOrderBaseTotal - appliedCouponDiscount - appliedCoinsDiscount;
+      appliedWalletDiscount = isChecked ? Math.min(userWallet, Math.max(0, balanceAfterCoupon)) : 0;
+      recalculatePaymentBreakdown();
+    }
+
+    // --- MODULE 5: POST-ORDER OPERATIONS ---
     function finalizePaymentExecution() {
       const method = document.querySelector('input[name="payment-method"]:checked').value;
-      const netPayable = Math.max(0, currentOrderBaseTotal - appliedCouponDiscount - appliedCoinsDiscount);
+      const netPayable = Math.max(0, currentOrderBaseTotal - appliedCouponDiscount - appliedCoinsDiscount - appliedWalletDiscount);
 
       if (appliedCoinsDiscount > 0) userCoins -= appliedCoinsDiscount;
-      userCoins += 20;
+      if (appliedWalletDiscount > 0) userWallet -= appliedWalletDiscount;
+      userCoins += 20; // Loyalty gain
+      
       localStorage.setItem('mreedo_coins', userCoins);
+      localStorage.setItem('mreedo_wallet', userWallet);
       updateCoinsDisplay();
+      updateWalletDisplay();
 
-      // Generate Order Record (Module 5)
       const orderItems = activeCheckoutSource === 'CART' 
         ? [...cart] 
         : [{ ...expressProduct, qty: 1 }];
@@ -967,7 +1179,7 @@
         items: orderItems,
         totalPaid: netPayable,
         paymentMethod: method,
-        statusStep: 1, // 1: Confirmed, 2: Packed, 3: Dispatched, 4: Delivered
+        statusStep: 1,
         statusText: 'Order Confirmed',
         address: addresses.length > 0 ? addresses[0] : { name: currentUser.name, city: 'India', street: 'Registered Address' }
       };
@@ -983,7 +1195,7 @@
 
       updateBadges();
       closePaymentGateway();
-      alert(`Order ${newOrder.orderId} Confirmed via ${method}! Real-time dispatch tracking initiated.`);
+      alert(`Order ${newOrder.orderId} Confirmed via ${method}! 20 Dream Coins credited.`);
       openOrdersModal();
     }
 
@@ -1005,8 +1217,6 @@
 
       container.innerHTML = orders.map((o, idx) => `
         <div class="border border-neutral-200 rounded-xl p-4 bg-neutral-50/50 space-y-4">
-          
-          <!-- Order Metadata Bar -->
           <div class="flex flex-wrap justify-between items-center border-b border-neutral-200 pb-2.5 gap-2">
             <div>
               <span class="font-bold text-black text-xs">Order #${o.orderId}</span>
@@ -1018,7 +1228,6 @@
             </div>
           </div>
 
-          <!-- Flipkart Interactive Dispatch Tracker -->
           <div class="py-2">
             <div class="flex justify-between text-[10px] font-bold text-neutral-600 mb-1.5">
               <span class="${o.statusStep >= 1 ? 'text-black' : 'text-neutral-400'}">● Confirmed</span>
@@ -1031,7 +1240,6 @@
             </div>
           </div>
 
-          <!-- Items in Order -->
           <div class="space-y-2">
             ${o.items.map(item => `
               <div class="flex items-center gap-3 bg-white p-2 border border-neutral-200 rounded-lg">
@@ -1044,7 +1252,6 @@
             `).join('')}
           </div>
 
-          <!-- Order Actions: Cancel / Return -->
           <div class="flex justify-end gap-2 pt-2 border-t border-neutral-200 text-[10px]">
             ${o.statusStep < 3 ? `
               <button onclick="cancelOrder(${idx})" class="text-red-600 font-semibold hover:underline">Instant Cancel Order</button>
@@ -1052,14 +1259,13 @@
               <button onclick="requestExchange(${idx})" class="text-neutral-700 font-semibold hover:underline">7-Day Return / Exchange</button>
             `}
           </div>
-
         </div>
       `).join('');
     }
 
     function cancelOrder(index) {
-      if (confirm(`Are you sure you want to cancel order #${orders[index].orderId}? Electronic refund will be initiated instantly.`)) {
-        alert(`Order #${orders[index].orderId} has been revoked. Refund routed to your original payment node.`);
+      if (confirm(`Are you sure you want to cancel order #${orders[index].orderId}? Refund routed to original node.`)) {
+        alert(`Order #${orders[index].orderId} revoked.`);
         orders.splice(index, 1);
         localStorage.setItem('mreedo_orders', JSON.stringify(orders));
         updateBadges();
@@ -1068,10 +1274,9 @@
     }
 
     function requestExchange(index) {
-      alert(`Replacement ticket generated for #${orders[index].orderId}. Our logistics executive will coordinate reverse doorstep pickup.`);
+      alert(`Replacement ticket generated for #${orders[index].orderId}. Concierge pickup scheduled.`);
     }
 
-    // --- MODULE 5: INVOICE GENERATOR ---
     function viewInvoice(index) {
       const o = orders[index];
       const printable = document.getElementById('printable-invoice');
@@ -1143,6 +1348,13 @@
       document.getElementById('nav-coins-balance').innerText = `${userCoins} Coins`;
       const dropEl = document.getElementById('dropdown-coins');
       if (dropEl) dropEl.innerText = userCoins;
+    }
+
+    function updateWalletDisplay() {
+      const dropW = document.getElementById('dropdown-wallet');
+      const cardW = document.getElementById('wallet-balance-card');
+      if (dropW) dropW.innerText = userWallet;
+      if (cardW) cardW.innerText = userWallet;
     }
 
     function updateBadges() {
@@ -1340,6 +1552,7 @@
     renderWishlistUI();
     syncUser();
     updateCoinsDisplay();
+    updateWalletDisplay();
   </script>
 </body>
 </html>
